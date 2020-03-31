@@ -604,9 +604,21 @@ public class ControllerFoodTruck {
 	@RequestMapping("admin/listCatalogue")
 	public ModelAndView adminAfficherCatalogue(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/listCatalogue");
+		model.addAttribute("prodList", prepo.findAll());
 		return modelAndView;
 	}
 
+	@RequestMapping("/suppr")
+	public ModelAndView adminSuprCatalogue(Model model, @RequestParam(name = "id") int id) {
+		ModelAndView modelAndView = new ModelAndView("admin/listCatalogue");
+		prepo.deleteById(id);
+
+		model.addAttribute("prodList", prepo.findAll());
+
+		return modelAndView;
+
+	}
+	
 	@RequestMapping("admin/modifierCatalogue")
 	public ModelAndView adminModifierCatalogue(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierCatalogue");
@@ -614,8 +626,19 @@ public class ControllerFoodTruck {
 	}
 
 	@GetMapping("admin/ajouterCatalogue")
-	public ModelAndView adminAjouterCatalogue(Model model) {
+	public ModelAndView adminAjouterCatalogue(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterCatalogue");
+		List<String> user = new ArrayList<String>();
+		// Famille : Boissoin froide, boisson chaude, entree, plat, dessert
+		user.add("Boissoin froide");
+		user.add("boisson chaude");
+		user.add(" entree");
+		user.add(" plat");
+		user.add(" dessert");
+
+		// ht.setAttribute(name, o);
+		model.addAttribute("famille", user);
+		ht.getSession().setAttribute("famille", user);
 		return modelAndView;
 
 	}
@@ -623,147 +646,91 @@ public class ControllerFoodTruck {
 	@PostMapping("admin/ajouterCatalogue")
 	public ModelAndView adminAjouterCatalogueS(Model model, @ModelAttribute(name = "catalogues") Produit pe,
 
-			@ModelAttribute(name = "ptdej") String ptdej, @ModelAttribute(name = "dej") String dej,
-			@ModelAttribute(name = "r") String r, @ModelAttribute(name = "g") String g,
-			@ModelAttribute(name = "lundi") String lundi, @ModelAttribute(name = "mardi") String mardi,
-			@ModelAttribute(name = "mercredi") String mercredi, @ModelAttribute(name = "jeudi") String jeudi,
-			@ModelAttribute(name = "vendredi") String vendredi, @ModelAttribute(name = "samedi") String samedi,
-			@ModelAttribute(name = "dimanche") String dimanche, HttpServletRequest ht) {
+			@ModelAttribute(name = "famille") String famille, @ModelAttribute(name = "ptdej") String ptdej,
+			@ModelAttribute(name = "dej") String dej, @ModelAttribute(name = "r") String r,
+			@ModelAttribute(name = "g") String g, @ModelAttribute(name = "lundi") String lundi,
+			@ModelAttribute(name = "mardi") String mardi, @ModelAttribute(name = "mercredi") String mercredi,
+			@ModelAttribute(name = "jeudi") String jeudi, @ModelAttribute(name = "vendredi") String vendredi,
+			@ModelAttribute(name = "samedi") String samedi, @ModelAttribute(name = "dimanche") String dimanche,
+			HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterCatalogue");
-		// pe.getType().add(t);
-//		t.setNom(t.getNom());
-//		t.setHeure(t.getHeure());
-//		pe.getType().add(t);
-//	System.out.println(pe);
-//Type	user=(Type) ht.getSession().getAttribute("tpes");
-//pe.getType().add( user);
-//pe.getType().add( user);
-//pe.getType().add( user);
-//System.out.println(user);
-//		System.out.println("hello");
-//		prepo.save(pe);
 
+		String test = "";
 		List<Type> user = new ArrayList<Type>();
-		// System.out.println("affiche"+ptdej);
-		// System.out.println("affiche"+ptdej.toString());
-		// System.out.println("affiche1"+dej);
-		// System.out.println("affiche2"+dej.toString());
 
+		String res = "";
+		if (famille.equals("plat"))
+
+		{
+			test = "plat";
+		}
 		if (!lundi.equals(""))
 
 		{
-
+			res += lundi + ",";
 		}
 		if (!mardi.equals(""))
 
 		{
-
+			res += mardi + ",";
 		}
 
 		if (!mercredi.equals(""))
 
 		{
-
+			res += mercredi + ",";
 		}
 
 		if (!jeudi.equals(""))
 
 		{
-
+			res += jeudi + ",";
 		}
 
 		if (!vendredi.equals(""))
 
 		{
-
+			res += vendredi + ",";
 		}
 		if (!samedi.equals(""))
 
 		{
-
+			res += samedi + ",";
 		}
 
 		if (!dimanche.equals(""))
 
 		{
+			res += dimanche + ",";
 
 		}
 
+		System.out.println(res);
+		pe.setDisponibilite(res);
 		if (!ptdej.equals(""))
 
 		{
 			ptdej.toString();
-			Type tppe = new Type(ptdej.toString(), 8);
-
-			tRepo.save(tppe);
+			pe.setDisponibilite(res);
+			Type tppe = (Type) tRepo.findByNom(ptdej);
 			pe.getType().add(tppe);
-			prepo.save(pe);
-			System.out.println(ptdej);
-			System.out.println(ptdej.toString());
-
-			System.out.println(tppe);
-			System.out.println(pe);
-
-			// user.add(new Type(ptdej,8));
 		}
 		if (!dej.equals("")) {
-			Type tppe = new Type(dej.toString(), 10);
-
-			tRepo.save(tppe);
+			Type tppe = (Type) tRepo.findByNom(dej);
 			pe.getType().add(tppe);
-			prepo.save(pe);
-			System.out.println(dej);
-			System.out.println(dej.toString());
-			System.out.println(tppe);
-			System.out.println(pe);
-
-			// user.add(new Type(ptdej,8));
 		}
 		if (!r.equals("")) {
-			Type tppe = new Type(r.toString(), 10);
-
-			tRepo.save(tppe);
+			Type tppe = (Type) tRepo.findByNom(r);
 			pe.getType().add(tppe);
-			prepo.save(pe);
-			System.out.println(r);
-			System.out.println(r.toString());
-			System.out.println(tppe);
-			System.out.println(pe);
-
-			// user.add(new Type(ptdej,8));
 		}
 		if (!g.equals("")) {
-			Type tppe = new Type(g.toString(), 10);
-
-			tRepo.save(tppe);
+			Type tppe = (Type) tRepo.findByNom(g);
 			pe.getType().add(tppe);
-			prepo.save(pe);
-			System.out.println(g);
-			System.out.println(g.toString());
-			System.out.println(tppe);
-			System.out.println(pe);
-
-			// user.add(new Type(ptdej,8));
 		}
 
-		/*
-		 * if(ptdej.isEmpty())
-		 * 
-		 * System.out.println(lundi); System.out.println(mardi);
-		 * System.out.println(mercredi); System.out.println(jeudi);
-		 */
+		prepo.save(pe);
+		System.out.println(pe);
 		return modelAndView;
-
-		// ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
-		// ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
-
-		// ht.getSession().setAttribute("personne", pe);
-
-		// userRepo.save(pe);
-
-		// model.addAttribute("artList", userRepo.findAll());
-
-		// return modelAndView2;
 
 	}
 

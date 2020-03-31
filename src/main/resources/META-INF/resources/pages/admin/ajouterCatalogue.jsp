@@ -32,7 +32,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
      
 	 <h1>AJOUT  PRODUIT</h1>
 
-<a href="/admin/modifierCatalogue">Modifier</a>
+<a href="/admin/listCatalogue">Modifier</a>
 <a href="/admin/ajouterCatalogue">Ajouter</a>
 <a href="/admin/listCatalogue">supprimer</a>
 
@@ -42,9 +42,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
     </div>
   </nav>
   	
- <a href="/type" >
-       <h1> ajout type </h1>
-        </a>
+ 
   
   <div class="container" style="background-color: green;">
   
@@ -62,18 +60,24 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
         <input type="text" class="form-control" id="em" placeholder="Entrer le nom du produit" name="nom">
       </div>
     </div>
+    
+    
+    
 	<div class="form-group">
       <label class="control-label col-sm-2" >Prix:</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="ema" placeholder="Entrer le prix du produit" name="prix">
+        <input type="number" class="form-control" id="prix" placeholder="Entrer le prix du produit" name="prix">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Stock:</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" id="l" placeholder="Entrer le stock du produit" name="stock">
+        <input type="number" class="form-control" id="stock" placeholder="Entrer le stock du produit" name="stock">
       </div>
     </div>
+    
+    
+    
 	<div class="form-group">
       <label class="control-label col-sm-2" >Description:</label>
       <div class="col-sm-10">
@@ -150,11 +154,11 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
         
         
         <h1>Famille de repas </h1>
-          <select class="custom-select" id="inputGroupSelect01">
-    <option selected>Choose...</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
+          <select class="custom-select" id="inputGroupSelect01" value="famille">
+    <option selected value="plat">plat</option>
+    <option value="Boissoin froide">"Boissoin froide"</option>
+    <option value="boisson chaude">boisson chaude</option>
+    <option value="entree">entree</option>
   </select>
     
    
