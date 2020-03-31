@@ -46,7 +46,7 @@
   
 
   <footer class="container-fluid text-center">
-  <p><a href="">nous contacter</a></p>
+  <p><a href="/contacts">nous contacter</a></p>
 </footer>
 
 </body>

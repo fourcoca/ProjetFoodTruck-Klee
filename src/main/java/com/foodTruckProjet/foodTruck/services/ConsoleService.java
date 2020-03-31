@@ -73,15 +73,15 @@ public class ConsoleService implements CommandLineRunner{
 		p2.setType(art2);
 		prep.save(p2);
 		
-		Ligne un = new Ligne(1, "en cours", LocalDateTime.now(), u.getAdresse(), p);
-		Ligne deux = new Ligne(2, "en cours", LocalDateTime.now(), u.getSociete(), p2);
-		
-		lrep.save(un);
-		lrep.save(deux);
+//		Ligne un = new Ligne(1, "en cours", LocalDateTime.now(), u.getAdresse(), p);
+//		Ligne deux = new Ligne(2, "en cours", LocalDateTime.now(), u.getSociete(), p2);
+//		
+//		lrep.save(un);
+//		lrep.save(deux);
 		
 		Panier panier = new Panier();
-		panier.ajouterLigne(un);
-		panier.ajouterLigne(deux);
+//		panier.ajouterLigne(un);
+//		panier.ajouterLigne(deux);
 		
 		Commande commande = new Commande(LocalDateTime.now(),u,panier);
 		crep.save(commande);

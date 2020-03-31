@@ -1,5 +1,7 @@
 package com.foodTruckProjet.foodTruck.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.foodTruckProjet.foodTruck.model.Catalogue;
 import com.foodTruckProjet.foodTruck.model.Contact;
+import com.foodTruckProjet.foodTruck.model.Ligne;
+import com.foodTruckProjet.foodTruck.model.Panier;
 import com.foodTruckProjet.foodTruck.model.Produit;
 import com.foodTruckProjet.foodTruck.model.Type;
 import com.foodTruckProjet.foodTruck.model.Utilisateur;
@@ -58,9 +63,125 @@ public class ControllerFoodTruck {
         return prepo.findAll();
     }
 	
-	@RequestMapping("/catalogue")
+	@GetMapping("/catalogue")
 	public ModelAndView catalogue(Model model) {
-		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", prepo.findAll());
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+
+		return modelAndView;
+	}
+
+	@GetMapping("/recherche")
+	public ModelAndView rechercher(Model model,HttpServletRequest ht, @RequestParam("mot") String mot) {
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+		modelAndView.addObject("motRecherche",mot);
+//		ht.getSession().setAttribute("type", type);
+//		modelAndView.addObject("famille",famille);
+		ht.getSession().setAttribute("date", null);
+		ht.getSession().setAttribute("livraison", null);
+		ht.getSession().setAttribute("heure", null);
+		
+
+		return modelAndView;
+	}
+	@GetMapping("/TypeMode")
+	public ModelAndView Type(Model model,HttpServletRequest ht, @RequestParam("ModeType") int ModeType) {
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+		ht.getSession().setAttribute("mode", ModeType);
+		ht.getSession().setAttribute("date", null);
+		ht.getSession().setAttribute("livraison", null);
+		ht.getSession().setAttribute("heure", null);
+		return modelAndView;
+	}
+
+	@GetMapping("/ajouterQ-{ligne.produit.nom}")
+	public ModelAndView ajouterUneQ(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+		ModelAndView modelAndView = new ModelAndView("panier");
+		Panier p = (Panier) ht.getSession().getAttribute("Panier");
+		p.ajouterQuantite(produit, 1);
+		ht.getSession().setAttribute("Panier", p);
+		return modelAndView;
+	}
+
+
+	@GetMapping("/suppr-{ligne.produit.nom}")
+	public ModelAndView supprimerP(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+		ModelAndView modelAndView = new ModelAndView("panier");
+		Panier p = (Panier) ht.getSession().getAttribute("Panier");
+		p.supprimerLigne(produit);
+		ht.getSession().setAttribute("Panier", p);
+		return modelAndView;
+	}
+	@GetMapping("/diminuerQ-{ligne.produit.nom}")
+	public ModelAndView diminuerUneQ(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+		ModelAndView modelAndView = new ModelAndView("panier");
+		Panier p = (Panier) ht.getSession().getAttribute("Panier");
+		p.diminuerQuantite(produit, 1);
+		ht.getSession().setAttribute("Panier", p);
+		return modelAndView;
+	}	
+	@GetMapping("/catalogue-{detailId}")
+	public ModelAndView catalogueDetail(Model model, @PathVariable(name = "detailId") int detailId) {
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+		modelAndView.addObject("detail", prepo.findById(detailId).get());
+		return modelAndView;
+	}
+
+	@PostMapping("/date-livraison")
+	public ModelAndView AppliquerDate(Model model, HttpServletRequest ht, @RequestParam("date") String date,
+			@RequestParam("livraison") String livraison,
+			@RequestParam("heure") String heure, @RequestParam("Type") String type, @RequestParam("Famille") String famille) {
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+		ht.getSession().setAttribute("date", date);
+		ht.getSession().setAttribute("livraison", livraison);
+		ht.getSession().setAttribute("heure", heure);
+		ht.getSession().setAttribute("famille", famille);
+		ht.getSession().setAttribute("type", type);
+		System.out.println(heure);
+		return modelAndView;
+	}
+
+	@PostMapping("/ajouter-panier-{detailId}")
+	public ModelAndView AjouterAuPanier(Model model, HttpServletRequest ht, @PathVariable(name = "detailId") int detailId,
+			@RequestParam("quantite") int quantite) {
+		Produit detail = prepo.findById(detailId).get();
+		Catalogue catalogue = new Catalogue(prepo, tRepo);
+		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
+		Utilisateur current = (Utilisateur) ht.getSession().getAttribute("utilisateur");
+		Panier p;
+		if (ht.getSession().getAttribute("Panier") == null) {
+			p = new Panier();
+		}
+		else
+		{
+			p = (Panier) ht.getSession().getAttribute("Panier");
+		}
+	
+			String adresse = "";
+			switch (ht.getSession().getAttribute("livraison").toString()) {
+			case "Domicile":
+				adresse = current.getAdresse();
+				break;
+			case "Societe":
+				adresse = current.getSociete();
+				break;
+			case "Sur Place":
+				adresse = "Sur place";
+				break;
+			default:
+				break;
+			}
+			String str = ht.getSession().getAttribute("date")+" "+ht.getSession().getAttribute("heure");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+			Ligne l = new Ligne(quantite, dateTime, adresse, detail);
+			p.ajouterLigne(l);
+			ht.getSession().setAttribute("Panier", p);
+			
 		return modelAndView;
 	}
 	@GetMapping("/connexion")

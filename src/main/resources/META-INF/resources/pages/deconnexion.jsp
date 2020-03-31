@@ -22,7 +22,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 
 	<p>Au revoir </p>
 <footer class="container-fluid text-center">
-  <p><a href="">nous contacter</a></p>
+  <p><a href="/contacts">nous contacter</a></p>
 </footer>
 
 </body>
