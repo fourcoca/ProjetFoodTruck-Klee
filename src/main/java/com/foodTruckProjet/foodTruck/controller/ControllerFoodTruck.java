@@ -290,7 +290,13 @@ public class ControllerFoodTruck {
 	}
 
 	@RequestMapping("/panier")
-	public ModelAndView panier(Model model) {
+	public ModelAndView panier(Model model,
+			HttpServletRequest ht) 
+	{
+		if(ht.getSession().getAttribute("utilisateur")==null)
+		{ModelAndView modelAndView = new ModelAndView("accueil");
+		return modelAndView;}
+		
 		ModelAndView modelAndView = new ModelAndView("panier");
 		return modelAndView;
 	}
