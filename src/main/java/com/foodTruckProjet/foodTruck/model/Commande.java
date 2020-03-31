@@ -30,6 +30,13 @@ public class Commande {
 
 	}
 
+	public double getPrixTotal() {
+		double total = 0;
+		for (Ligne ligne : lignes) {
+			total += ligne.getPrix();
+		}
+		return total;
+	}
 	public Commande(LocalDateTime dateDeCommande, Utilisateur utilisateur, Panier panier) {
 		super();
 		this.dateDeCommande = dateDeCommande;

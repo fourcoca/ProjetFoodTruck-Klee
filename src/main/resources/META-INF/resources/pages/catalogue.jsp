@@ -81,7 +81,7 @@
 				</div>
 			</nav>
 		</c:if>
-		<c:if test="${(not empty date)}">
+		<c:if test="${(not empty date)|| empty utilisateur}">
 		
 		<div class="">
 			<nav class="navbar navbar-default">
