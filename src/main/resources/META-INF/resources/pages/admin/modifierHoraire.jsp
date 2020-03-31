@@ -15,61 +15,29 @@
 style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/1200px-Lula_kebab_2.jpg)";
 
 >
-<%@ include file="nav.jsp" %>
+<%@ include file="nav.jsp"%>
 
 
 
 
-<div class="container-fluid text-center">    
-    <div class="row content">
-      <div class="col-sm-2 sidenav">
-        
-      
-      </div>
-      <div class="col-sm-8 "> 
-       <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-     
-	 <h1>Modification  PRODUIT</h1>
-
-<a href="/admin/modifierHoraire">Modifier</a>
-<a href="/admin/addHoraire">Ajouter</a>
-<a href="/admin/listHoraire">supprimer</a>
-
-     
-     
-      
-    </div>
-  </nav>
-  
-  <div class="container" style="background-color: green;">
-  <h2>FoodTruck</h2>
-  <h1>GESTION TYPES ET HORAIRE</h1>
-  <form  action="" method="post" modelAttribute="TYPE" style="background-color: green;">
-   
+	<h1>MODIFIER HORAIRE</h1>
+<form class="navbar-form navbar-left" method="post" action="/admin/modifierHoraire">
+	<label class="custom-control-label" for="heurePD">Petit Dejeuner </label>
+	<input type="number" id="heurePD" value="${heurePD}" name="heurePD" min="8" max="22" required>
 	
-   	 
-    <div class="form-group">
-      <label class="control-label col-sm-2" >Nom:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="e5878" placeholder="Entrer le type " name="nom">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" >heure:</label>
-      <div class="col-sm-10">          
-        <input type="number" class="form-control" id="pwd122" placeholder="Entrer l'heure " name="heure">
-      </div>
-    </div>
-   
-  
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Modifier TYPE </button>
-      </div>
-    </div>
-  </form>
-</div>
+	
+	<label class="custom-control-label" for="heureD">Dejeuner</label>
+	<input type="number" id="heureD" value="${heureD}" name="heureD" min="8" max="22" required>
+	
+	<label class="custom-control-label" for="heureG">Gouter</label>
+	<input type="number" id="heureG" value="${heureG}" name="heureG" min="8" max="22" required>
+	
+	
+	<label class="custom-control-label" for="heureDiner">Diner</label>
+	<input type="number" id="heureDiner" value="${heureDiner}" name="heureDiner" min="8" max="22" required>
+</form>
+
+	<a href="/admin/modifierHoraire">Valider</a>
 
 </body>
 </html>
