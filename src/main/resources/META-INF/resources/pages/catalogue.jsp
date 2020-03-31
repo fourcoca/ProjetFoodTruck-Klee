@@ -40,7 +40,7 @@
 						<div class="form-group">
 							<input type="date" name="date" value="${date}"
 								class="form-control"> <input type="time" id="heure"
-								value="${heure}" name="heure" min="09:00" max="18:00" required>
+								value="${heure}" name="heure" min="06:00" max="22:00" required>
 
 
 							<input type="radio" class="custom-control-input" id="Domicile"
