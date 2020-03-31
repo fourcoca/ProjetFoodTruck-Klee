@@ -1,6 +1,7 @@
 package com.foodTruckProjet.foodTruck.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
 
@@ -28,6 +29,15 @@ public class Ligne {
 		return produit;
 	}
 
+	public String getDate()
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateTime = this.getDateDeLivraison();
+		String formattedDateTime = dateTime.format(formatter);
+		return formattedDateTime;
+		
+	}
+	
 	public void setProduit(Produit produit) {
 		this.produit = produit;
 	}
@@ -66,13 +76,13 @@ public class Ligne {
 		this.adresse = adresse;
 	}
 
-	public Ligne(int quantite, String statut, LocalDateTime date, String adresse, Produit produit) {
+	public Ligne(int quantite, LocalDateTime date, String adresse, Produit produit) {
 		super();
 		this.quantite = quantite;
-		this.statut = statut;
 		this.dateDeLivraison = date;
 		this.adresse = adresse;
 		this.produit = produit;
+		this.statut = this.getStatut();
 	}
 
 	
@@ -86,7 +96,7 @@ public class Ligne {
 
 	public double getPrix()
 	{
-		if(!this.getStatut().equals("Sur Place"))
+		if(!this.getAdresse().toLowerCase().equals("sur place"))
 		{
 			return this.getProduit().getPrix()*this.getQuantite()*1.1;
 		}
@@ -98,7 +108,7 @@ public class Ligne {
 
 	public double getFrais()
 	{
-		if(!this.getStatut().equals("Sur Place"))
+		if(!this.getAdresse().toLowerCase().equals("sur place"))
 		{
 			return this.getProduit().getPrix()*this.getQuantite()*0.1;
 		}
@@ -113,11 +123,11 @@ public class Ligne {
 		LocalDateTime now = LocalDateTime.now();
 		if(now.isBefore(this.getDateDeLivraison()))
 		{
-			return "En cours";
+			return "en-cours";
 		}
 		else
 		{
-			return "Livré";
+			return "livré";
 		}
 		
 	}

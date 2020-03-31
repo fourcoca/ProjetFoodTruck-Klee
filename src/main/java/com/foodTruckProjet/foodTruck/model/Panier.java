@@ -37,13 +37,17 @@ public class Panier {
 		}
 	}
 	
-	public void ajouterQuantite(Ligne l,int q)
+	public void ajouterQuantite(String produit,int q)
 	{
 		boolean trouv = false;
 		for (Ligne ligne : lignes) {
-			if(ligne.getProduit().getNom().equals(l.getProduit().getNom()))
+			if(ligne.getProduit().getNom().equals(produit))
 			{
 				ligne.setQuantite(ligne.getQuantite()+q);
+				if(ligne.getQuantite()>ligne.getProduit().getStock())
+				{
+					ligne.setQuantite(ligne.getProduit().getStock());
+				}
 				trouv = true;
 			}
 		}
@@ -53,13 +57,18 @@ public class Panier {
 		}
 	}
 	
-	public void diminuerQuantite(Ligne l,int q)
+	public void diminuerQuantite(String produit,int q)
 	{
 		boolean trouv = false;
+		Ligne asupp = null;
 		for (Ligne ligne : lignes) {
-			if(ligne.getProduit().getNom().equals(l.getProduit().getNom()))
+			if(ligne.getProduit().getNom().equals(produit))
 			{
 				ligne.setQuantite(ligne.getQuantite()-q);
+				if (ligne.getQuantite()<=0)
+				{
+					asupp=ligne;
+				}
 				trouv = true;
 			}
 		}
@@ -67,14 +76,18 @@ public class Panier {
 		{
 			System.out.println("introuvable ligne à supprimer");
 		}
+		if(asupp!=null)
+		{
+			this.lignes.remove(asupp);
+		}
 	}
 	
-	public void supprimerLigne(Ligne l)
+	public void supprimerLigne(String produit)
 	{
 		boolean trouv = false;
 		Ligne asuppr = new Ligne();
 		for (Ligne ligne : lignes) {
-			if(ligne.getProduit().getNom().equals(l.getProduit().getNom()))
+			if(ligne.getProduit().getNom().equals(produit))
 			{
 				asuppr=ligne;
 				trouv = true;
