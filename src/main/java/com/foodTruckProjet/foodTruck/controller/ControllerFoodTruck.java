@@ -272,6 +272,7 @@ public class ControllerFoodTruck {
 		user.setDateDeNaissance(dateDeNaissance);
 		user.setMotDePasse(motDePasse);
 		user.setEmail(email);
+		user.setSociete(societe);
 		
 		
 		
@@ -319,6 +320,11 @@ public class ControllerFoodTruck {
 		if (p.getLignes().size() > 0) {
 			crep.save(commande);
 		}
+		Utilisateur enbase = userRepo.findByEmail(u.getEmail());
+		List<Commande> listCommande = enbase.getCommandes();
+		listCommande.add(commande);
+		userRepo.save(enbase);
+		
 		modelAndView.addObject("commande", commande);
 		ht.getSession().setAttribute("Panier", new Panier());
 		ht.getSession().setAttribute("date", null);
@@ -373,6 +379,7 @@ public class ControllerFoodTruck {
 		user.setDateDeNaissance(dateDeNaissance);
 		user.setMotDePasse(motDePasse);
 		user.setEmail(email);
+		user.setSociete(societe);
 
 		userRepo.saveAndFlush(user);
 
@@ -397,8 +404,11 @@ public class ControllerFoodTruck {
 
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
 
-		System.out.println(a);
-
+		if(a==null)
+		{
+			ht.getSession().setAttribute("erreur", 1);
+			return echec;
+		}
 		if (a.getEmail().equals("minato@yahoo.fr") && a.getMotDePasse().equals("admin")) {
 			ht.getSession().setAttribute("user", a);
 			ht.getSession().setAttribute("erreur", 0);
