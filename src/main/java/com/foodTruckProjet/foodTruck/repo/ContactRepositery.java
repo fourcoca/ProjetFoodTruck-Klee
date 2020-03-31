@@ -9,6 +9,8 @@ import com.foodTruckProjet.foodTruck.model.Utilisateur;
 
 public interface ContactRepositery  extends JpaRepository<Contact, Integer>{
 
+
+
 	
 
 

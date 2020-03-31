@@ -57,6 +57,7 @@ public class ControllerFoodTruck {
 	@GetMapping("/accueil")
 	public ModelAndView accueil(Model model) {
 		ModelAndView modelAndView = new ModelAndView("accueil", "top3", prepo.findtop3());
+		System.out.println("Je suis accueil");
 		return modelAndView;
 	}
 
@@ -193,17 +194,17 @@ public class ControllerFoodTruck {
 	public ModelAndView connectionGet(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("connexion", "email", "");
 		modelAndView.addObject("pwd", "");
+		System.out.println("je suis connexion");
 		return modelAndView;
 	}
 
 	@PostMapping("/connexion")
 	public ModelAndView connectionPost(@RequestParam(name = "email") String email,
 			@RequestParam(name = "pwd") String mdp, Model model, HttpServletRequest ht) {
-		ModelAndView reussite = new ModelAndView("accueil");
+		ModelAndView reussite = new ModelAndView("redirect:/accueil");
 		ModelAndView echec = new ModelAndView("/connexion");
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
-
-		if (a != null) {
+		if (a!=null && a.getEmail().equals(email)&&a.getMotDePasse().equals(mdp)) {
 			ht.getSession().setAttribute("utilisateur", a);
 			ht.getSession().setAttribute("erreur", 0);
 			return reussite;
@@ -290,7 +291,13 @@ public class ControllerFoodTruck {
 	}
 
 	@RequestMapping("/panier")
-	public ModelAndView panier(Model model) {
+	public ModelAndView panier(Model model,
+			HttpServletRequest ht) 
+	{
+		if(ht.getSession().getAttribute("utilisateur")==null)
+		{ModelAndView modelAndView = new ModelAndView("accueil");
+		return modelAndView;}
+		
 		ModelAndView modelAndView = new ModelAndView("panier");
 		return modelAndView;
 	}
@@ -345,9 +352,12 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 
-	@RequestMapping("profil/historique")
-	public ModelAndView profilHistorique(Model model) {
-		ModelAndView modelAndView = new ModelAndView("profil/historique");
+	@RequestMapping("profil/historique-{UserID}")
+	public ModelAndView profilHistorique(Model model,@PathVariable(name="UserID")int userID) {
+
+		Utilisateur current = (Utilisateur) userRepo.findById(userID);
+		ModelAndView modelAndView = new ModelAndView("profil/historique", "historique", crep.findByUtilisateur(current));
+
 		return modelAndView;
 	}
 
