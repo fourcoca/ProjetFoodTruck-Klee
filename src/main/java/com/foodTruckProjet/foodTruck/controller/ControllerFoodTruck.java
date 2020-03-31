@@ -666,7 +666,6 @@ public class ControllerFoodTruck {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterCatalogue");
 
 		String test = "";
-		List<Type> user = new ArrayList<Type>();
 
 		String res = "";
 		if (famille.equals("plat"))
@@ -811,4 +810,188 @@ public class ControllerFoodTruck {
 //		
 //	}
 
+	
+	@RequestMapping("/modife")
+	public ModelAndView admineModifierCatalogue(Model model,@RequestParam(name="id") int id,HttpServletRequest ht) {
+		ModelAndView modelAndView = new ModelAndView("admin/modifierCatalogue");
+		
+		Produit produitAmodifier=prepo.findById(id).get();
+		ht.getSession().setAttribute("produitAmodifier", produitAmodifier);
+		return modelAndView;
+	}
+	@PostMapping("/modife")
+	public ModelAndView adminModifierCatalogue(Model model,@ModelAttribute(name="catalogues") Produit pe,
+			@ModelAttribute(name="famille")String famille,
+			//@RequestParam("quantite") int quantite
+			//@ModelAttribute(name="prix")double prix
+			@RequestParam(name="prix")double prix,
+			@RequestParam(name="stock")int stock,
+			@ModelAttribute(name="ptdej")String ptdej,@ModelAttribute(name="dej")String dej,
+			@ModelAttribute(name="r")String r,@ModelAttribute(name="g")String g,
+			@ModelAttribute(name="lundi")String lundi,@ModelAttribute(name="mardi")String mardi,
+			@ModelAttribute(name="mercredi")String mercredi,@ModelAttribute(name="jeudi")String jeudi,
+			@ModelAttribute(name="vendredi")String vendredi,@ModelAttribute(name="samedi")String samedi,
+			@ModelAttribute(name="dimanche")String dimanche,
+			HttpServletRequest ht)
+	{
+		ModelAndView modelAndView = new ModelAndView("admin/modifierCatalogue");
+		ModelAndView modelAndView2 = new ModelAndView("admin/listCatalogue");
+		Produit produitAmodifier;
+		produitAmodifier=(Produit) ht.getSession().getAttribute("produitAmodifier");
+		ht.getSession().setAttribute("produitAmodifier", produitAmodifier);
+		List<Type> types = new ArrayList<Type>();
+		String res = "";
+		
+		
+		if(!lundi.equals(""))
+		{
+			res+=lundi+",";
+		}
+		if(!mardi.equals(""))
+				{
+					res+=mardi+",";
+				}
+		if(!mercredi.equals(""))
+		{
+			res+=mercredi+",";
+		}
+		if(!jeudi.equals(""))
+		{
+			res+=jeudi+",";
+		}
+		if(!vendredi.equals(""))
+		{
+			res+=vendredi+",";
+		}
+		if(!samedi.equals(""))
+		{
+			res+=samedi+",";
+		}
+		if(!dimanche.equals(""))
+		{
+			res+=dimanche;
+		}
+		if(pe.getImage()!=null)
+		{
+			produitAmodifier.setImage(pe.getImage());
+		}
+			else
+		{
+				produitAmodifier.setImage(produitAmodifier.getImage());
+		}
+		if(pe.getNom()!=null)
+		{
+			produitAmodifier.setNom(pe.getNom());
+		}
+			else
+		{
+				produitAmodifier.setNom(produitAmodifier.getNom());
+		}
+		double t=produitAmodifier.getPrix();
+		if(pe.getPrix()>0)
+		{
+			produitAmodifier.setPrix(prix);
+		}
+			else
+		{
+				produitAmodifier.setPrix(t);
+		}
+		if(pe.getStock()>0)
+		{
+			produitAmodifier.setStock(pe.getStock());
+		}
+			else
+		{
+				produitAmodifier.setStock(produitAmodifier.getStock());
+		}
+		if(pe.getDescription()!=null)
+		{
+			produitAmodifier.setDescription(pe.getDescription());
+		}
+			else
+		{
+				produitAmodifier.setDescription(produitAmodifier.getDescription());
+		}
+		if(pe.getFamille()!=null)
+		{
+			produitAmodifier.setFamille(pe.getFamille());
+		}
+			else
+		{
+				produitAmodifier.setFamille(produitAmodifier.getFamille());
+		}
+		if(!ptdej.equals(""))
+		{
+			ptdej.toString();
+			//Type tppe =new Type(ptdej.toString(),8);
+			//String teste=(String) ht.getSession().getAttribute("famille");
+			
+			//tRepo.save(tppe);
+			Type tppe=(Type) tRepo.findByNom(ptdej);
+			types.add(tppe);
+//			
+//			prepo.save(pe);
+//			System.out.println(ptdej);
+//			System.out.println(ptdej.toString());
+//			System.out.println(res);
+//		System.out.println(test);
+//			System.out.println( tppe);
+//			System.out.println( pe);
+		//user.add(new Type(ptdej,8));
+		}
+		if(!dej.equals(""))
+		{
+			//Type tppe =new Type(dej.toString(),10);
+			//String teste=(String) ht.getSession().getAttribute("famille");
+			//tRepo.save(tppe);
+			Type tppe=(Type) tRepo.findByNom(dej);
+			types.add(tppe);
+//			prepo.save(pe);
+//			System.out.println(dej);
+//			System.out.println(dej.toString());
+//			System.out.println( tppe);
+//			System.out.println(res);
+//			System.out.println(test);
+//			System.out.println( pe);
+		//user.add(new Type(ptdej,8));
+		}
+		if(!r.equals(""))
+		{
+			//Type tppe =new Type(r.toString(),10);
+			//String teste=(String) ht.getSession().getAttribute("famille");
+			//tRepo.save(tppe);
+			Type tppe=(Type) tRepo.findByNom(r);
+			types.add(tppe);
+			//prepo.save(pe);
+//			System.out.println(r);
+//			System.out.println(r.toString());
+//			System.out.println(res);
+//			System.out.println(test);
+//			System.out.println( tppe);
+//			System.out.println( pe);
+		//user.add(new Type(ptdej,8));
+		}
+		if(!g.equals(""))
+		{
+			//Type tppe =new Type(g.toString(),10);
+		//	String teste=(String) ht.getSession().getAttribute("famille");
+			//tRepo.save(tppe);
+			Type tppe=(Type) tRepo.findByNom(g);
+			types.add(tppe);
+//			prepo.save(pe);
+//			System.out.println(g);
+//			System.out.println(g.toString());
+//			System.out.println(res);
+//			System.out.println(test);
+//			System.out.println( tppe);
+//			System.out.println( pe);
+		//user.add(new Type(ptdej,8));
+		}
+		System.out.println(produitAmodifier);
+		produitAmodifier.setDisponibilite(res);
+		produitAmodifier.setType(types);
+			prepo.saveAndFlush(produitAmodifier);
+			model.addAttribute("prodList", prepo.findAll());
+			return modelAndView2;
+	}
 }
