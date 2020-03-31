@@ -88,7 +88,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
     	
     		<td>
        	 
-      <a href="">
+       <a href="../modife?id=<c:out value="${ prod.id }"/>">
 													
 		<button type="button" class="btn btn-warning">Modifier</button>
       
