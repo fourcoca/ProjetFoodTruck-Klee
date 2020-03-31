@@ -81,7 +81,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
        	 
       <a href="../suppr?id=<c:out value="${ prod.id }"/>">
 													
-		<h3>supprimer</h3>
+		<button type="button" class="btn btn-danger">Supprimer</button>
       
     	</a>
     	</td>
@@ -90,9 +90,9 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
        	 
       <a href="">
 													
-		<h3>modifier</h3>
+		<button type="button" class="btn btn-warning">Modifier</button>
       
-    	
+    	</a>
     	</td>
       </tr>
       </c:forEach>

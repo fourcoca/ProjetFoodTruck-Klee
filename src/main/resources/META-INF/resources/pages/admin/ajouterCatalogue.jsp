@@ -139,16 +139,16 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
     <h1> TYPE DE REPAS :</h1>
    	   <div class="row"> 
        <div class="col-sm-4">
-        <input type="checkbox"  id="e587" value="petit-dejeuner" name="ptdej">petit-dejeuner
+        <input type="checkbox"  id="e587" value="Petit_Dejeuner" name="ptdej">petit-dejeuner
       </div>
       <div class="col-sm-4">
-        <input type="checkbox"  id="e587" value="dejeuner" name="dej">dejeuner
+        <input type="checkbox"  id="e587" value="Dejeuner" name="dej">Dejeuner
       </div>
       <div class="col-sm-4">
-        <input type="checkbox"  id="e587" value="repas"  name="r">repas
+        <input type="checkbox"  id="e587" value="Diner"  name="r">Diner
       </div>
       <div class="col-sm-4">
-        <input type="checkbox"  id="e587" value="gouter" name="g">gouter
+        <input type="checkbox"  id="e587" value="Gouter" name="g">gouter
       </div>
      </div>
         
