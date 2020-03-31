@@ -874,9 +874,38 @@ if(!dimanche.equals(""))
 
 	}
 
-	@RequestMapping("admin/modifierHoraire")
+	@GetMapping("admin/modifierHoraire")
 	public ModelAndView adminModifierHoraire(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
+		modelAndView.addObject("heurePD",tRepo.findByNom("Petit_Dejeuner"));
+		modelAndView.addObject("heureD",tRepo.findByNom("Dejeuner"));
+		modelAndView.addObject("heureG",tRepo.findByNom("Gouter"));
+		modelAndView.addObject("heureDiner",tRepo.findByNom("Diner"));
+		return modelAndView;
+	}
+	
+	@PostMapping("admin/modifierHoraire")
+	public ModelAndView adminModifierHorairePost(Model model,
+			@RequestParam("heurePD") String heurePD,
+			@RequestParam("heureD") String heureD,
+			@RequestParam("heureG") String heureG,
+			@RequestParam("heureDiner") String heureDiner) {
+		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
+		Type PD = tRepo.findByNom("Petit_Dejeuner");
+		Type D = tRepo.findByNom("Dejeuner");
+		Type G = tRepo.findByNom("Gouter");
+		Type Din = tRepo.findByNom("Diner");
+		
+		PD.setHeure(Integer.parseInt(heurePD));
+		D.setHeure(Integer.parseInt(heureD));
+		G.setHeure(Integer.parseInt(heureG));
+		Din.setHeure(Integer.parseInt(heureDiner));
+		
+		tRepo.save(PD);
+		tRepo.save(D);
+		tRepo.save(G);
+		tRepo.save(Din);
+		
 		return modelAndView;
 	}
 	
