@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.foodTruckProjet.foodTruck.model.Catalogue;
+import com.foodTruckProjet.foodTruck.model.Commande;
 import com.foodTruckProjet.foodTruck.model.Contact;
 import com.foodTruckProjet.foodTruck.model.Ligne;
 import com.foodTruckProjet.foodTruck.model.Panier;
 import com.foodTruckProjet.foodTruck.model.Produit;
 import com.foodTruckProjet.foodTruck.model.Type;
 import com.foodTruckProjet.foodTruck.model.Utilisateur;
+import com.foodTruckProjet.foodTruck.repo.CommandeRepository;
 import com.foodTruckProjet.foodTruck.repo.ContactRepositery;
+import com.foodTruckProjet.foodTruck.repo.LigneRepository;
 import com.foodTruckProjet.foodTruck.repo.ProduitRepository;
 import com.foodTruckProjet.foodTruck.repo.TypeRepository;
 import com.foodTruckProjet.foodTruck.repo.UtilisateurRepository;
@@ -41,7 +44,11 @@ public class ControllerFoodTruck {
 
 	@Autowired
 	private ProduitRepository prepo;
+	@Autowired
+	private CommandeRepository crep;
 
+	@Autowired
+	private LigneRepository lrep;
 	@Autowired
 	private UtilisateurRepository userRepo;
 	
@@ -277,8 +284,40 @@ public class ControllerFoodTruck {
 	}
 
 	@RequestMapping("/valider")
-	public ModelAndView valider(Model model) {
+	public ModelAndView valider(Model model,HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("valider");
+		ModelAndView modelAndViewC = new ModelAndView("accueil");
+		Panier p = (Panier) ht.getSession().getAttribute("Panier");
+		if(p == null ||  ht.getSession().getAttribute("utilisateur")==null)
+		{
+			return modelAndViewC;
+		}
+		Utilisateur u = (Utilisateur) ht.getSession().getAttribute("utilisateur");
+		
+		for (Ligne ligne : p.getLignes()) {
+			int Idproduit = ligne.getProduit().getId();
+			Produit produit = prepo.findById(Idproduit).get();
+			if(produit.getStock()-ligne.getQuantite()<0)
+			{
+				produit.setStock(0);
+			}
+			else
+			{
+				produit.setStock(produit.getStock()-ligne.getQuantite());
+			}
+			prepo.save(produit);
+			lrep.save(ligne);
+		}
+		Commande commande = new Commande(LocalDateTime.now(),u,p);
+		if(p.getLignes().size()>0)
+		{
+			crep.save(commande);
+		}
+		modelAndView.addObject("commande", commande);
+		ht.getSession().setAttribute("Panier", new Panier());
+		ht.getSession().setAttribute("date", null);
+		ht.getSession().setAttribute("livraison", null);
+		ht.getSession().setAttribute("heure", null);
 		return modelAndView;
 	}
 

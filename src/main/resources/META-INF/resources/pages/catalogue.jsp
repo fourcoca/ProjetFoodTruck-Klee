@@ -490,15 +490,15 @@
 				
 				<c:if test="${not empty date && detail.isDispWeek(date) && detail.stock>0 && detail.isDispHour(date,heure,type)}">
 
-<!-- 					<form class="navbar-form navbar-left" method="post" -->
-<%-- 						action="/ajouter-panier-${detail.id}"> --%>
-<%-- 						<p>Quantite pour le ${date} et pour le mode de livraison : --%>
-<%-- 							${livraison } a ${heure }h</p> --%>
-<!-- 						Quantite : <input type="number" class="form-control" id="quantite" -->
-<!-- 							min=1 placeholder="1" value=1 name="quantite"> -->
-<!-- 						<button type="submit" class="btn btn-success">Ajouter au -->
-<!-- 							Panier</button> -->
-<!-- 					</form> -->
+					<form class="navbar-form navbar-left" method="post"
+						action="/ajouter-panier-${detail.id}">
+						<p>Quantite pour le ${date} et pour le mode de livraison :
+							${livraison } a ${heure }h</p>
+						Quantite : <input type="number" class="form-control" id="quantite"
+							min=1 placeholder="1" value=1 name="quantite">
+						<button type="submit" class="btn btn-success">Ajouter au
+							Panier</button>
+					</form>
 				</c:if>
 				<c:if test="${not empty date && not detail.isDispWeek(date)}">
 										<p>Pas disponible pour cette date :( !</p>
