@@ -64,28 +64,24 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 	@GetMapping("/connexion")
-	public ModelAndView connectionGet(Model model, HttpServletRequest ht)
-	{
+	public ModelAndView connectionGet(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("connexion", "email", "");
-		modelAndView.addObject("pwd","");	
+		modelAndView.addObject("pwd", "");
 		return modelAndView;
 	}
 
 	@PostMapping("/connexion")
-	public ModelAndView connectionPost(@RequestParam(name="email") String email,@RequestParam(name="pwd") String mdp,Model model, HttpServletRequest ht)
-	{
+	public ModelAndView connectionPost(@RequestParam(name = "email") String email,
+			@RequestParam(name = "pwd") String mdp, Model model, HttpServletRequest ht) {
 		ModelAndView reussite = new ModelAndView("accueil");
 		ModelAndView echec = new ModelAndView("/connexion");
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
-		
-		if(a!=null)
-		{
+
+		if (a != null) {
 			ht.getSession().setAttribute("utilisateur", a);
 			ht.getSession().setAttribute("erreur", 0);
-			return reussite;	
-		}
-		else
-		{
+			return reussite;
+		} else {
 			ht.getSession().setAttribute("erreur", 1);
 			return echec;
 		}

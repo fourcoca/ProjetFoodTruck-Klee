@@ -7,7 +7,7 @@ import com.foodTruckProjet.foodTruck.model.Utilisateur;
  	
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer>{
 
-	List <Utilisateur> findByEmail(String email);
+	Utilisateur findByEmail(String email);
 	
 	Utilisateur findById(int id);
 	
