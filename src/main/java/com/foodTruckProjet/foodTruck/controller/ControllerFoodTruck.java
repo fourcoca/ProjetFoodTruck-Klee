@@ -57,6 +57,7 @@ public class ControllerFoodTruck {
 	@GetMapping("/accueil")
 	public ModelAndView accueil(Model model) {
 		ModelAndView modelAndView = new ModelAndView("accueil", "top3", prepo.findtop3());
+		System.out.println(prepo.findtop3());
 		return modelAndView;
 	}
 
@@ -199,7 +200,7 @@ public class ControllerFoodTruck {
 	@PostMapping("/connexion")
 	public ModelAndView connectionPost(@RequestParam(name = "email") String email,
 			@RequestParam(name = "pwd") String mdp, Model model, HttpServletRequest ht) {
-		ModelAndView reussite = new ModelAndView("accueil");
+		ModelAndView reussite = new ModelAndView("/accueil");
 		ModelAndView echec = new ModelAndView("/connexion");
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
 
@@ -351,9 +352,12 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 
-	@RequestMapping("profil/historique")
-	public ModelAndView profilHistorique(Model model) {
-		ModelAndView modelAndView = new ModelAndView("profil/historique");
+	@RequestMapping("profil/historique-{UserID}")
+	public ModelAndView profilHistorique(Model model,@PathVariable(name="UserID")int userID) {
+
+		Utilisateur current = (Utilisateur) userRepo.findById(userID);
+		ModelAndView modelAndView = new ModelAndView("profil/historique", "historique", crep.findByUtilisateur(current));
+
 		return modelAndView;
 	}
 

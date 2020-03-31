@@ -169,4 +169,40 @@ public class Produit {
 		System.out.println("dateDeCommande "+ dateDeCommande.toString());
 		return dateDeCommande.isBefore(dateDeService);
 	}
+	
+	public String getDisponibiliteString()
+	{
+		String dispo = "";
+		String[] dispoTab = this.disponibilite.split(",");
+		
+		for (String jour : dispoTab) {
+			switch (jour) {
+			case "1":
+				dispo = dispo +" Lundi";
+				break;
+			case "2":
+				dispo = dispo +" Mardi";
+				break;
+			case "3":
+				dispo = dispo +" Mercredi";
+				break;
+			case "4":
+				dispo = dispo +" Jeudi";
+				break;
+			case "5":
+				dispo = dispo +" Vendredi";
+				break;
+			case "6":
+				dispo = dispo +" Samedi";
+				break;
+			case "7":
+				dispo = dispo +" Dimanche";
+				break;
+			default:
+				break;
+			}
+		}
+		
+		return "Ce produit est dispo les jours suivants :"+dispo;
+	}
 }
