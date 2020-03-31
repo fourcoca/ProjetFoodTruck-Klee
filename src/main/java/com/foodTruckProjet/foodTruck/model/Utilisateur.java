@@ -2,6 +2,7 @@ package com.foodTruckProjet.foodTruck.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -23,6 +24,17 @@ public class Utilisateur  {
 	private String societe;
 	private String email;
 	
+	@OneToMany(cascade=CascadeType.REMOVE)
+	private List<Commande> commandes ;
+	
+	public List<Commande> getCommandes() {
+		return commandes;
+	}
+
+	public void setCommandes(List<Commande> commandes) {
+		this.commandes = commandes;
+	}
+
 	public Utilisateur()
 	{
 		

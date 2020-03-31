@@ -9,7 +9,7 @@ public class UserRole {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Utilisateur utilisateur;
 
 	@Enumerated(EnumType.STRING)

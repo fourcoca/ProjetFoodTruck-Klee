@@ -56,7 +56,7 @@ public class ConsoleService implements CommandLineRunner {
 				"10@10");
 		urep.save(u);
 
-		urrep.save(new UserRole(u, Role.ADMIN));
+		//urrep.save(new UserRole(u, Role.ADMIN));
 
 		Type t1 = new Type("Petit_Dejeuner", 11);
 		trep.save(t1);

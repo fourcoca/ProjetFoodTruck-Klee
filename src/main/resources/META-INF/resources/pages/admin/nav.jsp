@@ -10,12 +10,10 @@
       </div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="">Accueil</a></li>
-        <li><a href="">Catalogue</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<c:if test="${empty sessionScope.user}">
-        <li><a href="/inscription"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
-        <li><a href="/connexion"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
+        <li><a href="admin"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>
         </c:if>
         <c:if test="${not empty sessionScope.user}">
         <li style="background-color: gray;">Bonjour ${user.nom}</li>
