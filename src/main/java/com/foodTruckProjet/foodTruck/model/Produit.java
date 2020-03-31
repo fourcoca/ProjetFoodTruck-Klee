@@ -1,7 +1,9 @@
 package com.foodTruckProjet.foodTruck.model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +20,10 @@ public class Produit {
 	private double prix;
 	private int stock;
 	private String description;
-	//lundi 1,23,4
 	private String disponibilite;
 	private String famille;
 	
-	@Column(name = "type", nullable = true)
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Type> type = new ArrayList<Type>();
 	
 	public Produit()
@@ -95,8 +95,17 @@ public class Produit {
 		this.famille = famille;
 	}
 
-	
-	@Column(name = "type", nullable = true)
+	public boolean foudType(String typeRecher)
+	{
+		for (Type type2 : type) {
+			if(type2.getNom().equals(typeRecher))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<Type> getType() {
 		return type;
 	}
@@ -126,8 +135,9 @@ public class Produit {
 		this.type = type;
 	}
 	
-	public boolean isDispWeek(LocalDate dateDeLivraisonSouhaite)
+	public boolean isDispWeek(String SdateDeLivraisonSouhaite)
 	{
+		LocalDate dateDeLivraisonSouhaite = LocalDate.parse(SdateDeLivraisonSouhaite);
 		String[] dispo = this.disponibilite.split(",");
 		for (String jour : dispo) {
 			if(jour.equals(Integer.toString(dateDeLivraisonSouhaite.getDayOfWeek().getValue())))
@@ -138,8 +148,11 @@ public class Produit {
 		return false;
 	}
 	
-	public boolean isDispHour(LocalDateTime dateDeCommande, String typeVoulu)
+	public boolean isDispHour(String dateDeCommandeS,String hour, String typeVoulu)
 	{
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateDeCommande = LocalDateTime.parse(dateDeCommandeS+" "+hour, formatter);
 		int heure = 0;
 		for (Type type : this.type) {
 			if(type.getNom().equals(typeVoulu))
@@ -147,9 +160,13 @@ public class Produit {
 				heure=type.getHeure();
 			}
 		}
-		
-		dateDeCommande = dateDeCommande.withHour(heure);
-		LocalDateTime now = LocalDateTime.now();
-		return now.isBefore(dateDeCommande);
+		System.out.println("Heure :");
+		System.out.println(heure);	
+		System.out.println("typeVoulu :");
+		System.out.println(typeVoulu);
+		LocalDateTime dateDeService = dateDeCommande.withHour(heure);
+		System.out.println("dateDeService "+ dateDeService.toString());
+		System.out.println("dateDeCommande "+ dateDeCommande.toString());
+		return dateDeCommande.isBefore(dateDeService);
 	}
 }

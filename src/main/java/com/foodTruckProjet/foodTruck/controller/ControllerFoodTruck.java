@@ -35,10 +35,6 @@ import com.foodTruckProjet.foodTruck.repo.ProduitRepository;
 import com.foodTruckProjet.foodTruck.repo.TypeRepository;
 import com.foodTruckProjet.foodTruck.repo.UtilisateurRepository;
 
-
-
-
-
 @RestController
 public class ControllerFoodTruck {
 
@@ -51,10 +47,10 @@ public class ControllerFoodTruck {
 	private LigneRepository lrep;
 	@Autowired
 	private UtilisateurRepository userRepo;
-	
+
 	@Autowired
 	private ContactRepositery cRepo;
-	
+
 	@Autowired
 	private TypeRepository tRepo;
 
@@ -64,12 +60,11 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 
-	@GetMapping(path="/", produces = "application/json")
-    public List<Produit> getEmployees() 
-    {
-        return prepo.findAll();
-    }
-	
+	@GetMapping(path = "/", produces = "application/json")
+	public List<Produit> getEmployees() {
+		return prepo.findAll();
+	}
+
 	@GetMapping("/catalogue")
 	public ModelAndView catalogue(Model model) {
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
@@ -79,21 +74,21 @@ public class ControllerFoodTruck {
 	}
 
 	@GetMapping("/recherche")
-	public ModelAndView rechercher(Model model,HttpServletRequest ht, @RequestParam("mot") String mot) {
+	public ModelAndView rechercher(Model model, HttpServletRequest ht, @RequestParam("mot") String mot) {
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
 		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
-		modelAndView.addObject("motRecherche",mot);
+		modelAndView.addObject("motRecherche", mot);
 //		ht.getSession().setAttribute("type", type);
 //		modelAndView.addObject("famille",famille);
 		ht.getSession().setAttribute("date", null);
 		ht.getSession().setAttribute("livraison", null);
 		ht.getSession().setAttribute("heure", null);
-		
 
 		return modelAndView;
 	}
+
 	@GetMapping("/TypeMode")
-	public ModelAndView Type(Model model,HttpServletRequest ht, @RequestParam("ModeType") int ModeType) {
+	public ModelAndView Type(Model model, HttpServletRequest ht, @RequestParam("ModeType") int ModeType) {
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
 		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
 		ht.getSession().setAttribute("mode", ModeType);
@@ -104,7 +99,8 @@ public class ControllerFoodTruck {
 	}
 
 	@GetMapping("/ajouterQ-{ligne.produit.nom}")
-	public ModelAndView ajouterUneQ(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+	public ModelAndView ajouterUneQ(Model model, HttpServletRequest ht,
+			@PathVariable(name = "ligne.produit.nom") String produit) {
 		ModelAndView modelAndView = new ModelAndView("panier");
 		Panier p = (Panier) ht.getSession().getAttribute("Panier");
 		p.ajouterQuantite(produit, 1);
@@ -112,23 +108,26 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 
-
 	@GetMapping("/suppr-{ligne.produit.nom}")
-	public ModelAndView supprimerP(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+	public ModelAndView supprimerP(Model model, HttpServletRequest ht,
+			@PathVariable(name = "ligne.produit.nom") String produit) {
 		ModelAndView modelAndView = new ModelAndView("panier");
 		Panier p = (Panier) ht.getSession().getAttribute("Panier");
 		p.supprimerLigne(produit);
 		ht.getSession().setAttribute("Panier", p);
 		return modelAndView;
 	}
+
 	@GetMapping("/diminuerQ-{ligne.produit.nom}")
-	public ModelAndView diminuerUneQ(Model model, HttpServletRequest ht, @PathVariable(name = "ligne.produit.nom") String produit) {
+	public ModelAndView diminuerUneQ(Model model, HttpServletRequest ht,
+			@PathVariable(name = "ligne.produit.nom") String produit) {
 		ModelAndView modelAndView = new ModelAndView("panier");
 		Panier p = (Panier) ht.getSession().getAttribute("Panier");
 		p.diminuerQuantite(produit, 1);
 		ht.getSession().setAttribute("Panier", p);
 		return modelAndView;
-	}	
+	}
+
 	@GetMapping("/catalogue-{detailId}")
 	public ModelAndView catalogueDetail(Model model, @PathVariable(name = "detailId") int detailId) {
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
@@ -139,8 +138,8 @@ public class ControllerFoodTruck {
 
 	@PostMapping("/date-livraison")
 	public ModelAndView AppliquerDate(Model model, HttpServletRequest ht, @RequestParam("date") String date,
-			@RequestParam("livraison") String livraison,
-			@RequestParam("heure") String heure, @RequestParam("Type") String type, @RequestParam("Famille") String famille) {
+			@RequestParam("livraison") String livraison, @RequestParam("heure") String heure,
+			@RequestParam("Type") String type, @RequestParam("Famille") String famille) {
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
 		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
 		ht.getSession().setAttribute("date", date);
@@ -153,8 +152,8 @@ public class ControllerFoodTruck {
 	}
 
 	@PostMapping("/ajouter-panier-{detailId}")
-	public ModelAndView AjouterAuPanier(Model model, HttpServletRequest ht, @PathVariable(name = "detailId") int detailId,
-			@RequestParam("quantite") int quantite) {
+	public ModelAndView AjouterAuPanier(Model model, HttpServletRequest ht,
+			@PathVariable(name = "detailId") int detailId, @RequestParam("quantite") int quantite) {
 		Produit detail = prepo.findById(detailId).get();
 		Catalogue catalogue = new Catalogue(prepo, tRepo);
 		ModelAndView modelAndView = new ModelAndView("catalogue", "catalogue", catalogue);
@@ -162,35 +161,34 @@ public class ControllerFoodTruck {
 		Panier p;
 		if (ht.getSession().getAttribute("Panier") == null) {
 			p = new Panier();
-		}
-		else
-		{
+		} else {
 			p = (Panier) ht.getSession().getAttribute("Panier");
 		}
-	
-			String adresse = "";
-			switch (ht.getSession().getAttribute("livraison").toString()) {
-			case "Domicile":
-				adresse = current.getAdresse();
-				break;
-			case "Societe":
-				adresse = current.getSociete();
-				break;
-			case "Sur Place":
-				adresse = "Sur place";
-				break;
-			default:
-				break;
-			}
-			String str = ht.getSession().getAttribute("date")+" "+ht.getSession().getAttribute("heure");
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-			Ligne l = new Ligne(quantite, dateTime, adresse, detail);
-			p.ajouterLigne(l);
-			ht.getSession().setAttribute("Panier", p);
-			
+
+		String adresse = "";
+		switch (ht.getSession().getAttribute("livraison").toString()) {
+		case "Domicile":
+			adresse = current.getAdresse();
+			break;
+		case "Societe":
+			adresse = current.getSociete();
+			break;
+		case "Sur Place":
+			adresse = "Sur place";
+			break;
+		default:
+			break;
+		}
+		String str = ht.getSession().getAttribute("date") + " " + ht.getSession().getAttribute("heure");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
+		Ligne l = new Ligne(quantite, dateTime, adresse, detail);
+		p.ajouterLigne(l);
+		ht.getSession().setAttribute("Panier", p);
+
 		return modelAndView;
 	}
+
 	@GetMapping("/connexion")
 	public ModelAndView connectionGet(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("connexion", "email", "");
@@ -214,66 +212,79 @@ public class ControllerFoodTruck {
 			return echec;
 		}
 	}
-	
+
 	@GetMapping("/deconnexion")
-	public ModelAndView getDeconnexion(Model model, HttpServletRequest ht)
-	{
+	public ModelAndView getDeconnexion(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("deconnexion");
-		ht.getSession().setAttribute("utilisateur",null);
+		ht.getSession().setAttribute("utilisateur", null);
 
 		ht.getSession().invalidate();
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/deconnexion")
-	public ModelAndView deconnexionValide(Model model, HttpServletRequest ht)
-	{
+	public ModelAndView deconnexionValide(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("deconnexion");
 		ht.getSession().invalidate();
-		ht.getSession().setAttribute("utilisateur",null);
+		ht.getSession().setAttribute("utilisateur", null);
 
 		ht.getSession().invalidate();
-		
-		 return modelAndView ;
+
+		return modelAndView;
 	}
-	
 
 	@GetMapping("/contacts")
 	public ModelAndView contacts(Model model) {
 		ModelAndView modelAndView = new ModelAndView("contacts");
-		
+
 		return modelAndView;
 	}
+
 	@PostMapping("/contacts")
-	public ModelAndView contactes(Model model,@ModelAttribute(name="personneModel") Contact pe,HttpServletRequest ht) {
+	public ModelAndView contactes(Model model, @ModelAttribute(name = "personneModel") Contact pe,
+			HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("contacts");
-		
-		//ht.getSession().setAttribute("personne", pe);
-		//System.out.println(pe);
+
+		// ht.getSession().setAttribute("personne", pe);
+		// System.out.println(pe);
 		cRepo.save(pe);
-		
+
 		return modelAndView;
-		
-		
-		
+
 	}
 
 	@PostMapping("/inscription")
-	public ModelAndView inscription(Model model ,@ModelAttribute(name="personneModel") Utilisateur pe,HttpServletRequest ht)
+	public ModelAndView inscription(Model model, @RequestParam(name = "nom") String nom,
+			@RequestParam(name = "prenom") String prenom, @RequestParam(name = "email") String email,
+			@RequestParam(name = "adresse") String adresse, @RequestParam(name = "societe") String societe,
+			@RequestParam(name = "motDePasse") String motDePasse, @RequestParam(name = "genre") String genre,
+			@RequestParam(name = "dateDeNaissance") String dateDeNaissanceS, HttpServletRequest ht)
 	{
 		ModelAndView modelAndView = new ModelAndView("inscription");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS+" 00:00", formatter);
+		Utilisateur user = new Utilisateur();
+		user.setAdresse(adresse);
+		user.setNom(nom);
+		user.setEmail(email);
+		user.setPrenom(prenom);
+		user.setGenre(genre);
+		user.setDateDeNaissance(dateDeNaissance);
+		user.setMotDePasse(motDePasse);
+		user.setEmail(email);
 		
-		ht.getSession().setAttribute("personne", pe);
-		userRepo.save(pe);
-	
+		
+		
+		userRepo.save(user);
+
 		return modelAndView;
 	}
-	
+
 	@GetMapping("/inscription")
 	public ModelAndView inscrire(Model model) {
 		ModelAndView modelAndView = new ModelAndView("inscription");
 		Utilisateur user = new Utilisateur();
-		model.addAttribute("user",user);
+		model.addAttribute("user", user);
 		return modelAndView;
 	}
 
@@ -284,33 +295,28 @@ public class ControllerFoodTruck {
 	}
 
 	@RequestMapping("/valider")
-	public ModelAndView valider(Model model,HttpServletRequest ht) {
+	public ModelAndView valider(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("valider");
 		ModelAndView modelAndViewC = new ModelAndView("accueil");
 		Panier p = (Panier) ht.getSession().getAttribute("Panier");
-		if(p == null ||  ht.getSession().getAttribute("utilisateur")==null)
-		{
+		if (p == null || ht.getSession().getAttribute("utilisateur") == null) {
 			return modelAndViewC;
 		}
 		Utilisateur u = (Utilisateur) ht.getSession().getAttribute("utilisateur");
-		
+
 		for (Ligne ligne : p.getLignes()) {
 			int Idproduit = ligne.getProduit().getId();
 			Produit produit = prepo.findById(Idproduit).get();
-			if(produit.getStock()-ligne.getQuantite()<0)
-			{
+			if (produit.getStock() - ligne.getQuantite() < 0) {
 				produit.setStock(0);
-			}
-			else
-			{
-				produit.setStock(produit.getStock()-ligne.getQuantite());
+			} else {
+				produit.setStock(produit.getStock() - ligne.getQuantite());
 			}
 			prepo.save(produit);
 			lrep.save(ligne);
 		}
-		Commande commande = new Commande(LocalDateTime.now(),u,p);
-		if(p.getLignes().size()>0)
-		{
+		Commande commande = new Commande(LocalDateTime.now(), u, p);
+		if (p.getLignes().size() > 0) {
 			crep.save(commande);
 		}
 		modelAndView.addObject("commande", commande);
@@ -326,13 +332,13 @@ public class ControllerFoodTruck {
 		ModelAndView modelAndView = new ModelAndView("profil/profile");
 		return modelAndView;
 	}
+
 	@RequestMapping("/resume")
 	public ModelAndView resume(Model model) {
 		ModelAndView modelAndView = new ModelAndView("profil/resume");
 		return modelAndView;
 	}
 
-	
 	@RequestMapping("profil/historique")
 	public ModelAndView profilHistorique(Model model) {
 		ModelAndView modelAndView = new ModelAndView("profil/historique");
@@ -342,166 +348,87 @@ public class ControllerFoodTruck {
 	@GetMapping("/modifier")
 	public ModelAndView profilModifier(Model model) {
 		ModelAndView modelAndView = new ModelAndView("profil/modifier");
-		//Utilisateur user = new Utilisateur();
-		//model.addAttribute("user",user);
+		// Utilisateur user = new Utilisateur();
+		// model.addAttribute("user",user);
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/modifier")
-	public ModelAndView profilModifier(Model model,@ModelAttribute(name="userModel") Utilisateur pe,HttpServletRequest ht) 
-	{
+	public ModelAndView profilModifier(Model model, @RequestParam(name = "nom") String nom,
+			@RequestParam(name = "prenom") String prenom, @RequestParam(name = "email") String email,
+			@RequestParam(name = "adresse") String adresse, @RequestParam(name = "societe") String societe,
+			@RequestParam(name = "motDePasse") String motDePasse, @RequestParam(name = "genre") String genre,
+			@RequestParam(name = "dateDeNaissance") String dateDeNaissanceS, HttpServletRequest ht) {
 		Utilisateur user;
 		ModelAndView modelAndView = new ModelAndView("profil/modifier");
-		//ht.getSession().setAttribute("personne", pe);
-		user=(Utilisateur) ht.getSession().getAttribute("utilisateur");
-		//user=(Utilisateur) model.getAttribute("user");
-		user.setAdresse(pe.getAdresse());
-		
-		if(pe.getDateDeNaissance()!=null)
-		{
-		user.setDateDeNaissance(pe.getDateDeNaissance());
-		}
-		else
-		{
-			user.setDateDeNaissance(user.getDateDeNaissance());
-		}
-		
-		
-		if(pe.getEmail()!="")
-		{
-		user.setEmail(pe.getEmail());
-		}
-		else
-		{
-			user.setEmail(user.getEmail());
-		}
-		
-		
-		
-		if(pe.getGenre()!="")
-		{
-		user.setGenre(pe.getGenre());
-		}
-		else
-		{
-			user.setGenre(user.getGenre());
-		}
-		
-		
-		
-		if(pe.getMotDePasse()!="")
-		{
-		user.setMotDePasse(pe.getMotDePasse());
-		}
-		else
-		{
-			user.setMotDePasse(user.getMotDePasse());
-		}
-		
-		
-		
-		if(pe.getNom()!="")
-		{
-		user.setNom(pe.getNom());
-		}
-		else
-		{
-			user.setNom(user.getNom());
-		}
-		
-		
-		
-		if(pe.getPrenom()!="")
-		{
-		user.setPrenom(pe.getPrenom());
-		}
-		else
-		{
-			user.setPrenom(user.getPrenom());
-		}
-		
-		
-		
-		if(pe.getSociete()!="")
-		{
-		user.setSociete(pe.getSociete());
-		}
-		else
-		{
-			user.setSociete(user.getSociete());
-		}
-		
-		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		dateDeNaissanceS = dateDeNaissanceS.replace('T', ' ');
+		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS.substring(0, 16), formatter);
+		user = (Utilisateur) ht.getSession().getAttribute("utilisateur");
+		user.setAdresse(adresse);
+		user.setNom(nom);
+		user.setEmail(email);
+		user.setPrenom(prenom);
+		user.setGenre(genre);
+		user.setDateDeNaissance(dateDeNaissance);
+		user.setMotDePasse(motDePasse);
+		user.setEmail(email);
+
 		userRepo.saveAndFlush(user);
-		System.out.println(user);
-		
-		//userRepo.save(pe);
-		
-		
+
 		return modelAndView;
 	}
-	
-	
 
 	@GetMapping("admin")
 	public ModelAndView admin(Model model, HttpServletRequest ht) {
-		ModelAndView modelAndView = new ModelAndView("admin/authadmin","email", "");
-		modelAndView.addObject("pwd","");
+		ModelAndView modelAndView = new ModelAndView("admin/authadmin", "email", "");
+		modelAndView.addObject("pwd", "");
 		return modelAndView;
-		
-		
-			
+
 	}
+
 	@PostMapping("admin")
-	public ModelAndView admine(@RequestParam(name="email") String email,@RequestParam(name="pwd") String mdp,Model model, HttpServletRequest ht)
-	
-{
-		ModelAndView echec  = new ModelAndView("admin/authadmin");
+	public ModelAndView admine(@RequestParam(name = "email") String email, @RequestParam(name = "pwd") String mdp,
+			Model model, HttpServletRequest ht)
+
+	{
+		ModelAndView echec = new ModelAndView("admin/authadmin");
 		ModelAndView reussite = new ModelAndView("admin/homeAdmin");
-		
+
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
-		
-		
+
 		System.out.println(a);
-		
-		if(a.getEmail().equals("minato@yahoo.fr")&&a.getMotDePasse().equals("admin"))
-		{
+
+		if (a.getEmail().equals("minato@yahoo.fr") && a.getMotDePasse().equals("admin")) {
 			ht.getSession().setAttribute("user", a);
 			ht.getSession().setAttribute("erreur", 0);
-			return reussite;	
-		}
-		else
-		{
+			return reussite;
+		} else {
 			ht.getSession().setAttribute("erreur", 1);
 			return echec;
 		}
-		
-		
+
 	}
-	
+
 	@GetMapping("/decon")
-	public ModelAndView getDeconnexionAdmin(Model model, HttpServletRequest ht)
-	{
+	public ModelAndView getDeconnexionAdmin(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("deconnexion");
-		ht.getSession().setAttribute("user",null);
+		ht.getSession().setAttribute("user", null);
 
 		ht.getSession().invalidate();
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/decon")
-	public ModelAndView deconnexion(Model model, HttpServletRequest ht)
-	{
+	public ModelAndView deconnexion(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("deconnexion");
 		ht.getSession().invalidate();
-		ht.getSession().setAttribute("user",null);
+		ht.getSession().setAttribute("user", null);
 
 		ht.getSession().invalidate();
-		
-		 return modelAndView ;
-	}
-	
 
+		return modelAndView;
+	}
 
 	@RequestMapping("admin/listUtilisateur")
 	public ModelAndView adminAfficherUtilisateur(Model model) {
@@ -509,129 +436,103 @@ public class ControllerFoodTruck {
 		model.addAttribute("artList", userRepo.findAll());
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/print")
-	public ModelAndView adminPrintUser(Model model ,@RequestParam(name="id") int id ,HttpServletRequest ht)
-	{
+	public ModelAndView adminPrintUser(Model model, @RequestParam(name = "id") int id, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/selectUtilisateur");
-		//il peut en avoir deux email
-		//model.addAttribute("artList", userRepo.findByEmail(email));
+		// il peut en avoir deux email
+		// model.addAttribute("artList", userRepo.findByEmail(email));
 		model.addAttribute("List", userRepo.findById(id));
-		
-		//Utilisateur oneUser=userRepo.findById(id);
-		
-		//ht.getSession().setAttribute("userId", oneUser);
-		//model.getAttribute("artList");
+
+		// Utilisateur oneUser=userRepo.findById(id);
+
+		// ht.getSession().setAttribute("userId", oneUser);
+		// model.getAttribute("artList");
 		return modelAndView;
-		
+
 	}
-	
+
 	@RequestMapping("/supp")
-	public ModelAndView adminSuprUser(Model model ,@RequestParam(name="id") int id)
-	{
+	public ModelAndView adminSuprUser(Model model, @RequestParam(name = "id") int id) {
 		ModelAndView modelAndView = new ModelAndView("admin/supprimerUtilisateur");
 		userRepo.deleteById(id);
 		model.addAttribute("artList", userRepo.findAll());
-		
+
 		return modelAndView;
-		
+
 	}
 
 	@RequestMapping("/modif")
-	public ModelAndView admineModifierUtilisateur(Model model,@RequestParam(name="id") int id,HttpServletRequest ht) {
+	public ModelAndView admineModifierUtilisateur(Model model, @RequestParam(name = "id") int id,
+			HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierUtilisateur");
-		//Utilisateur user = new Utilisateur();
-		//model.addAttribute("user",user);
-			Utilisateur oneUser=userRepo.findById(id);
-		
+		// Utilisateur user = new Utilisateur();
+		// model.addAttribute("user",user);
+		Utilisateur oneUser = userRepo.findById(id);
+
 		ht.getSession().setAttribute("userId", oneUser);
 		return modelAndView;
 	}
-	
-	
+
 	@PostMapping("/modif")
-	public ModelAndView adminModifierUtilisateur(Model model,@ModelAttribute(name="usersModel") Utilisateur pe,HttpServletRequest ht) {
+	public ModelAndView adminModifierUtilisateur(Model model, @ModelAttribute(name = "usersModel") Utilisateur pe,
+			HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierUtilisateur");
 		ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
 		Utilisateur user;
 
-		user=(Utilisateur) ht.getSession().getAttribute("userId");
-		
-			//user.setAdresse(pe.getAdresse());
-		System.out.println("seul"+pe);
-		System.out.println("avant"+user);
-			if(pe.getDateDeNaissance()!=null)
-		{
-		user.setDateDeNaissance(pe.getDateDeNaissance());
-		}
-			else
-		{
+		user = (Utilisateur) ht.getSession().getAttribute("userId");
+
+		// user.setAdresse(pe.getAdresse());
+		System.out.println("seul" + pe);
+		System.out.println("avant" + user);
+		if (pe.getDateDeNaissance() != null) {
+			user.setDateDeNaissance(pe.getDateDeNaissance());
+		} else {
 			user.setDateDeNaissance(user.getDateDeNaissance());
 		}
 
-			
-			if(pe.getEmail()!="")
-			{
+		if (pe.getEmail() != "") {
 			user.setEmail(pe.getEmail());
-			}
-		else
-		{
+		} else {
 			user.setEmail(user.getEmail());
 		}
-		
-			
-			if(pe.getGenre()!="")
-			{
+
+		if (pe.getGenre() != "") {
 			user.setGenre(pe.getGenre());
-			}
-			else
-		{
+		} else {
 			user.setGenre(user.getGenre());
-			}
-			
-		if(pe.getMotDePasse()!="")
-		{
+		}
+
+		if (pe.getMotDePasse() != "") {
 			user.setMotDePasse(pe.getMotDePasse());
-			}
-			else
-			{
-				user.setMotDePasse(user.getMotDePasse());
+		} else {
+			user.setMotDePasse(user.getMotDePasse());
 		}
-		
-		if(pe.getNom()!="")
-		{
+
+		if (pe.getNom() != "") {
 			user.setNom(pe.getNom());
+		} else {
+			user.setNom(user.getNom());
 		}
-		else
-			{
-				user.setNom(user.getNom());
-		}
-		
-		if(pe.getPrenom()!="")
-			{
+
+		if (pe.getPrenom() != "") {
 			user.setPrenom(pe.getPrenom());
+		} else {
+			user.setPrenom(user.getPrenom());
 		}
-			else
-			{
-				user.setPrenom(user.getPrenom());
-			}
-		
-		if(pe.getSociete()!="")
-			{
+
+		if (pe.getSociete() != "") {
 			user.setSociete(pe.getSociete());
-			}
-			else
-			{
-				user.setSociete(user.getSociete());
-			}
-			
-			userRepo.saveAndFlush(user);
-			System.out.println("apres"+user);
-			
-			model.addAttribute("artList", userRepo.findAll());
-			return modelAndView2;
-		 
-		
+		} else {
+			user.setSociete(user.getSociete());
+		}
+
+		userRepo.saveAndFlush(user);
+		System.out.println("apres" + user);
+
+		model.addAttribute("artList", userRepo.findAll());
+		return modelAndView2;
 
 	}
 
@@ -640,34 +541,32 @@ public class ControllerFoodTruck {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
 		return modelAndView;
 	}
+
 	@PostMapping("admin/ajouterUtilisateur")
-	public ModelAndView adminAjouterUtilisateurs(Model model ,@ModelAttribute(name="userModel") Utilisateur pe,HttpServletRequest ht)
-	{
+	public ModelAndView adminAjouterUtilisateurs(Model model, @ModelAttribute(name = "userModel") Utilisateur pe,
+			HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
 		ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
-		
-		//ht.getSession().setAttribute("personne", pe);
-		
+
+		// ht.getSession().setAttribute("personne", pe);
+
 		userRepo.save(pe);
-		
-		
+
 		model.addAttribute("artList", userRepo.findAll());
-	
+
 		return modelAndView2;
 	}
-	
-	
+
 	@RequestMapping("/supr")
-	public ModelAndView adminSuprMessage(Model model ,@RequestParam(name="id") int id)
-	{
+	public ModelAndView adminSuprMessage(Model model, @RequestParam(name = "id") int id) {
 		ModelAndView modelAndView = new ModelAndView("admin/listMessagerie");
 		cRepo.deleteById(id);
 		model.addAttribute("List", cRepo.findAll());
-		
+
 		return modelAndView;
-		
+
 	}
-	
+
 	@RequestMapping("admin/listMessagerie")
 	public ModelAndView adminAfficherMeassagerie(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/listMessagerie");
@@ -687,26 +586,24 @@ public class ControllerFoodTruck {
 		return modelAndView;
 	}
 
-	
 	@GetMapping("admin/ajouterCatalogue")
 	public ModelAndView adminAjouterCatalogue(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterCatalogue");
 		return modelAndView;
-		
+
 	}
+
 	@PostMapping("admin/ajouterCatalogue")
-	public ModelAndView adminAjouterCatalogueS(Model model,@ModelAttribute(name="catalogues") Produit pe,
-			
-			
-			@ModelAttribute(name="ptdej")String ptdej,@ModelAttribute(name="dej")String dej,
-			@ModelAttribute(name="r")String r,@ModelAttribute(name="g")String g,
-			@ModelAttribute(name="lundi")String lundi,@ModelAttribute(name="mardi")String mardi,
-			@ModelAttribute(name="mercredi")String mercredi,@ModelAttribute(name="jeudi")String jeudi,
-			@ModelAttribute(name="vendredi")String vendredi,@ModelAttribute(name="samedi")String samedi,
-			@ModelAttribute(name="dimanche")String dimanche,
-			HttpServletRequest ht) {
+	public ModelAndView adminAjouterCatalogueS(Model model, @ModelAttribute(name = "catalogues") Produit pe,
+
+			@ModelAttribute(name = "ptdej") String ptdej, @ModelAttribute(name = "dej") String dej,
+			@ModelAttribute(name = "r") String r, @ModelAttribute(name = "g") String g,
+			@ModelAttribute(name = "lundi") String lundi, @ModelAttribute(name = "mardi") String mardi,
+			@ModelAttribute(name = "mercredi") String mercredi, @ModelAttribute(name = "jeudi") String jeudi,
+			@ModelAttribute(name = "vendredi") String vendredi, @ModelAttribute(name = "samedi") String samedi,
+			@ModelAttribute(name = "dimanche") String dimanche, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/ajouterCatalogue");
-		//pe.getType().add(t);
+		// pe.getType().add(t);
 //		t.setNom(t.getNom());
 //		t.setHeure(t.getHeure());
 //		pe.getType().add(t);
@@ -718,156 +615,149 @@ public class ControllerFoodTruck {
 //System.out.println(user);
 //		System.out.println("hello");
 //		prepo.save(pe);
-		
-		List<Type>user = new ArrayList<Type>();
-		//System.out.println("affiche"+ptdej);
-		//System.out.println("affiche"+ptdej.toString());
-		//System.out.println("affiche1"+dej);
-		//System.out.println("affiche2"+dej.toString());
-		
-		if(!lundi.equals(""))
-			
+
+		List<Type> user = new ArrayList<Type>();
+		// System.out.println("affiche"+ptdej);
+		// System.out.println("affiche"+ptdej.toString());
+		// System.out.println("affiche1"+dej);
+		// System.out.println("affiche2"+dej.toString());
+
+		if (!lundi.equals(""))
+
 		{
-			
+
 		}
-if(!mardi.equals(""))
-			
+		if (!mardi.equals(""))
+
 		{
-			
+
 		}
 
-if(!mercredi.equals(""))
-	
-{
-	
-}
+		if (!mercredi.equals(""))
 
-if(!jeudi.equals(""))
-	
-{
-	
-}
+		{
 
-if(!vendredi.equals(""))
-	
-{
-	
-}
-if(!samedi.equals(""))
-	
-{
-	
-}
+		}
 
-if(!dimanche.equals(""))
-	
-{
-	
-}
-		
-		if(!ptdej.equals(""))
-			
+		if (!jeudi.equals(""))
+
+		{
+
+		}
+
+		if (!vendredi.equals(""))
+
+		{
+
+		}
+		if (!samedi.equals(""))
+
+		{
+
+		}
+
+		if (!dimanche.equals(""))
+
+		{
+
+		}
+
+		if (!ptdej.equals(""))
+
 		{
 			ptdej.toString();
-			Type tppe =new Type(ptdej.toString(),8);
-			
+			Type tppe = new Type(ptdej.toString(), 8);
+
 			tRepo.save(tppe);
 			pe.getType().add(tppe);
 			prepo.save(pe);
 			System.out.println(ptdej);
 			System.out.println(ptdej.toString());
-			
-			System.out.println( tppe);
-			System.out.println( pe);
-			
-		//user.add(new Type(ptdej,8));
+
+			System.out.println(tppe);
+			System.out.println(pe);
+
+			// user.add(new Type(ptdej,8));
 		}
-		if(!dej.equals(""))
-		{
-			Type tppe =new Type(dej.toString(),10);
-			
+		if (!dej.equals("")) {
+			Type tppe = new Type(dej.toString(), 10);
+
 			tRepo.save(tppe);
 			pe.getType().add(tppe);
 			prepo.save(pe);
 			System.out.println(dej);
 			System.out.println(dej.toString());
-			System.out.println( tppe);
-			System.out.println( pe);
-			
-		//user.add(new Type(ptdej,8));
+			System.out.println(tppe);
+			System.out.println(pe);
+
+			// user.add(new Type(ptdej,8));
 		}
-		if(!r.equals(""))
-		{
-			Type tppe =new Type(r.toString(),10);
-			
+		if (!r.equals("")) {
+			Type tppe = new Type(r.toString(), 10);
+
 			tRepo.save(tppe);
 			pe.getType().add(tppe);
 			prepo.save(pe);
 			System.out.println(r);
 			System.out.println(r.toString());
-			System.out.println( tppe);
-			System.out.println( pe);
-			
-		//user.add(new Type(ptdej,8));
+			System.out.println(tppe);
+			System.out.println(pe);
+
+			// user.add(new Type(ptdej,8));
 		}
-		if(!g.equals(""))
-		{
-			Type tppe =new Type(g.toString(),10);
-			
+		if (!g.equals("")) {
+			Type tppe = new Type(g.toString(), 10);
+
 			tRepo.save(tppe);
 			pe.getType().add(tppe);
 			prepo.save(pe);
 			System.out.println(g);
 			System.out.println(g.toString());
-			System.out.println( tppe);
-			System.out.println( pe);
-			
-		//user.add(new Type(ptdej,8));
+			System.out.println(tppe);
+			System.out.println(pe);
+
+			// user.add(new Type(ptdej,8));
 		}
-		
-		
-		
-		/*if(ptdej.isEmpty())
-		
-		System.out.println(lundi);
-		System.out.println(mardi);
-		System.out.println(mercredi);
-		System.out.println(jeudi);*/
+
+		/*
+		 * if(ptdej.isEmpty())
+		 * 
+		 * System.out.println(lundi); System.out.println(mardi);
+		 * System.out.println(mercredi); System.out.println(jeudi);
+		 */
 		return modelAndView;
-		
-		
-			//ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
-			//ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
-			
-			//ht.getSession().setAttribute("personne", pe);
-			
-			//userRepo.save(pe);
-			
-			
-			//model.addAttribute("artList", userRepo.findAll());
-		
-			//return modelAndView2;
-		
+
+		// ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
+		// ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
+
+		// ht.getSession().setAttribute("personne", pe);
+
+		// userRepo.save(pe);
+
+		// model.addAttribute("artList", userRepo.findAll());
+
+		// return modelAndView2;
+
 	}
-	
+
 	@GetMapping("/type")
 	public ModelAndView adminAjouterType(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/type");
 		return modelAndView;
 	}
+
 	@PostMapping("/type")
-	public ModelAndView adminAjouterTypes(Model model,@ModelAttribute(name="types") Type t,HttpServletRequest ht) {
+	public ModelAndView adminAjouterTypes(Model model, @ModelAttribute(name = "types") Type t, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("admin/type");
-		
-	
-		//pe.getType().add(t);
+
+		// pe.getType().add(t);
 //		t.setNom(t.getNom());
 //		t.setHeure(t.getHeure());
 //		pe.getType().add(t);
-		
+
 		ht.getSession().setAttribute("tpes", t);
 		tRepo.save(t);
-	System.out.println(t);
+		System.out.println(t);
 //		
 		System.out.println("hello");
 		return modelAndView;
@@ -877,38 +767,36 @@ if(!dimanche.equals(""))
 	@GetMapping("admin/modifierHoraire")
 	public ModelAndView adminModifierHoraire(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
-		modelAndView.addObject("heurePD",tRepo.findByNom("Petit_Dejeuner"));
-		modelAndView.addObject("heureD",tRepo.findByNom("Dejeuner"));
-		modelAndView.addObject("heureG",tRepo.findByNom("Gouter"));
-		modelAndView.addObject("heureDiner",tRepo.findByNom("Diner"));
+		modelAndView.addObject("heurePD", tRepo.findByNom("Petit_Dejeuner"));
+		modelAndView.addObject("heureD", tRepo.findByNom("Dejeuner"));
+		modelAndView.addObject("heureG", tRepo.findByNom("Gouter"));
+		modelAndView.addObject("heureDiner", tRepo.findByNom("Diner"));
 		return modelAndView;
 	}
-	
+
 	@PostMapping("admin/modifierHoraire")
-	public ModelAndView adminModifierHorairePost(Model model,
-			@RequestParam("heurePD") String heurePD,
-			@RequestParam("heureD") String heureD,
-			@RequestParam("heureG") String heureG,
+	public ModelAndView adminModifierHorairePost(Model model, @RequestParam("heurePD") String heurePD,
+			@RequestParam("heureD") String heureD, @RequestParam("heureG") String heureG,
 			@RequestParam("heureDiner") String heureDiner) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
 		Type PD = tRepo.findByNom("Petit_Dejeuner");
 		Type D = tRepo.findByNom("Dejeuner");
 		Type G = tRepo.findByNom("Gouter");
 		Type Din = tRepo.findByNom("Diner");
-		
+
 		PD.setHeure(Integer.parseInt(heurePD));
 		D.setHeure(Integer.parseInt(heureD));
 		G.setHeure(Integer.parseInt(heureG));
 		Din.setHeure(Integer.parseInt(heureDiner));
-		
+
 		tRepo.save(PD);
 		tRepo.save(D);
 		tRepo.save(G);
 		tRepo.save(Din);
-		
+
 		return modelAndView;
 	}
-	
+
 //	@RequestMapping("/supr")
 //	public ModelAndView adminSuprHoraire(Model model ,@RequestParam(name="id") int id)
 //	{
@@ -919,6 +807,5 @@ if(!dimanche.equals(""))
 //		return modelAndView;
 //		
 //	}
-	
 
 }
