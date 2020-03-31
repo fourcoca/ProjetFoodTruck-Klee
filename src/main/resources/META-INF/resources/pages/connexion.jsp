@@ -6,18 +6,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Food Truck</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
-<body
-
-style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/1200px-Lula_kebab_2.jpg)";
-
->
+<body>
 <%@ include file="nav.jsp" %>
   <div class="container">
   <h2>FoodTruck</h2>
