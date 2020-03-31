@@ -57,7 +57,7 @@ public class ControllerFoodTruck {
 	@GetMapping("/accueil")
 	public ModelAndView accueil(Model model) {
 		ModelAndView modelAndView = new ModelAndView("accueil", "top3", prepo.findtop3());
-		System.out.println(prepo.findtop3());
+		System.out.println("Je suis accueil");
 		return modelAndView;
 	}
 
@@ -194,17 +194,17 @@ public class ControllerFoodTruck {
 	public ModelAndView connectionGet(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("connexion", "email", "");
 		modelAndView.addObject("pwd", "");
+		System.out.println("je suis connexion");
 		return modelAndView;
 	}
 
 	@PostMapping("/connexion")
 	public ModelAndView connectionPost(@RequestParam(name = "email") String email,
 			@RequestParam(name = "pwd") String mdp, Model model, HttpServletRequest ht) {
-		ModelAndView reussite = new ModelAndView("/accueil");
+		ModelAndView reussite = new ModelAndView("redirect:/accueil");
 		ModelAndView echec = new ModelAndView("/connexion");
 		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, mdp);
-
-		if (a != null) {
+		if (a!=null && a.getEmail().equals(email)&&a.getMotDePasse().equals(mdp)) {
 			ht.getSession().setAttribute("utilisateur", a);
 			ht.getSession().setAttribute("erreur", 0);
 			return reussite;
