@@ -41,7 +41,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 <div class="container" style="background-color: green;">
   <h2>FoodTruck</h2>
   <h1>AJOUT UTILISATEUR</h1>
-  <form  action="" method="post" modelAttribute="userModel" style="background-color: green;">
+  <form  action="" method="post"  style="background-color: green;">
     <div class="form-group">
       <label class="control-label col-sm-2" >Nom:</label>
       <div class="col-sm-10">
@@ -57,7 +57,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 	<div class="form-group">
       <label class="control-label col-sm-2" >Date de naissance:</label>
       <div class="col-sm-10">
-        <input type="datetime" class="form-control" id="ema" placeholder="Entrer votre Date de naissance" name="dateDeNaissance">
+        <input type="date" class="form-control" id="ema" placeholder="Entrer votre Date de naissance" name="dateDeNaissance">
       </div>
     </div>
 	<div class="form-group">

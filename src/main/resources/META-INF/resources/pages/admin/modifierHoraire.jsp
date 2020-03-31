@@ -23,21 +23,22 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 	<h1>MODIFIER HORAIRE</h1>
 <form class="navbar-form navbar-left" method="post" action="/admin/modifierHoraire">
 	<label class="custom-control-label" for="heurePD">Petit Dejeuner </label>
-	<input type="number" id="heurePD" value="${heurePD}" name="heurePD" min="8" max="22" required>
+	<input type="number" id="heurePD" value="${heurePD}" name="heurePD" min="6" max="22" required>
 	
 	
 	<label class="custom-control-label" for="heureD">Dejeuner</label>
-	<input type="number" id="heureD" value="${heureD}" name="heureD" min="8" max="22" required>
+	<input type="number" id="heureD" value="${heureD}" name="heureD" min="6" max="22" required>
 	
 	<label class="custom-control-label" for="heureG">Gouter</label>
-	<input type="number" id="heureG" value="${heureG}" name="heureG" min="8" max="22" required>
+	<input type="number" id="heureG" value="${heureG}" name="heureG" min="6" max="22" required>
 	
 	
 	<label class="custom-control-label" for="heureDiner">Diner</label>
-	<input type="number" id="heureDiner" value="${heureDiner}" name="heureDiner" min="8" max="22" required>
+	<input type="number" id="heureDiner" value="${heureDiner}" name="heureDiner" min="6" max="22" required>
+
+	<button type="submit" class="btn btn-default">Valider </button>
 </form>
 
-	<a href="/admin/modifierHoraire">Valider</a>
 
 </body>
 </html>

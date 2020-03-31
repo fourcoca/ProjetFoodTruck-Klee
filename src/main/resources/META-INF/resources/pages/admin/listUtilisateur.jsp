@@ -34,7 +34,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
     <div class="container-fluid">
      
 	 <a href="/admin/listUtilisateur">Modifier</a>
-	<a href="/admin/ajoutUtilisateur">Ajouter</a>
+	<a href="/admin/ajouterUtilisateur">Ajouter</a>
      
       
     </div>
@@ -59,6 +59,9 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
     </thead>
     <tbody>
      <c:forEach items="${ artList }" var="utilisateur">
+     
+     
+     	<c:if test="${utilisateur.motDePasse!='admin' }">
       <tr>
         
 				
@@ -95,7 +98,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
       
     	
     	</td>
-      </tr>
+      </tr></c:if>
       </c:forEach>
 				
       

@@ -553,18 +553,35 @@ public class ControllerFoodTruck {
 	}
 
 	@PostMapping("admin/ajouterUtilisateur")
-	public ModelAndView adminAjouterUtilisateurs(Model model, @ModelAttribute(name = "userModel") Utilisateur pe,
-			HttpServletRequest ht) {
-		ModelAndView modelAndView = new ModelAndView("admin/ajouterUtilisateur");
-		ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
+	public ModelAndView adminAjouterUtilisateurs(Model model, @RequestParam(name = "nom") String nom,
+			@RequestParam(name = "prenom") String prenom, @RequestParam(name = "email") String email,
+			@RequestParam(name = "adresse") String adresse, @RequestParam(name = "societe") String societe,
+			@RequestParam(name = "motDePasse") String motDePasse, @RequestParam(name = "genre") String genre,
+			@RequestParam(name = "dateDeNaissance") String dateDeNaissanceS)
+	{
+		ModelAndView modelAndView = new ModelAndView("admin/listUtilisateur");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS+" 00:00", formatter);
+		Utilisateur user = new Utilisateur();
+		user.setAdresse(adresse);
+		user.setNom(nom);
+		user.setEmail(email);
+		user.setPrenom(prenom);
+		user.setGenre(genre);
+		user.setDateDeNaissance(dateDeNaissance);
+		user.setMotDePasse(motDePasse);
+		user.setEmail(email);
+		user.setSociete(societe);
+		
+		
+		
+		userRepo.save(user);
 
-		// ht.getSession().setAttribute("personne", pe);
-
-		userRepo.save(pe);
 
 		model.addAttribute("artList", userRepo.findAll());
 
-		return modelAndView2;
+		return modelAndView;
 	}
 
 	@RequestMapping("/supr")
@@ -777,10 +794,10 @@ public class ControllerFoodTruck {
 	@GetMapping("admin/modifierHoraire")
 	public ModelAndView adminModifierHoraire(Model model) {
 		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
-		modelAndView.addObject("heurePD", tRepo.findByNom("Petit_Dejeuner"));
-		modelAndView.addObject("heureD", tRepo.findByNom("Dejeuner"));
-		modelAndView.addObject("heureG", tRepo.findByNom("Gouter"));
-		modelAndView.addObject("heureDiner", tRepo.findByNom("Diner"));
+		modelAndView.addObject("heurePD", tRepo.findByNom("Petit_Dejeuner").getHeure());
+		modelAndView.addObject("heureD", tRepo.findByNom("Dejeuner").getHeure());
+		modelAndView.addObject("heureG", tRepo.findByNom("Gouter").getHeure());
+		modelAndView.addObject("heureDiner", tRepo.findByNom("Diner").getHeure());
 		return modelAndView;
 	}
 
@@ -788,12 +805,12 @@ public class ControllerFoodTruck {
 	public ModelAndView adminModifierHorairePost(Model model, @RequestParam("heurePD") String heurePD,
 			@RequestParam("heureD") String heureD, @RequestParam("heureG") String heureG,
 			@RequestParam("heureDiner") String heureDiner) {
-		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
+		ModelAndView modelAndView = new ModelAndView("admin");
 		Type PD = tRepo.findByNom("Petit_Dejeuner");
 		Type D = tRepo.findByNom("Dejeuner");
 		Type G = tRepo.findByNom("Gouter");
 		Type Din = tRepo.findByNom("Diner");
-
+		
 		PD.setHeure(Integer.parseInt(heurePD));
 		D.setHeure(Integer.parseInt(heureD));
 		G.setHeure(Integer.parseInt(heureG));
@@ -803,7 +820,6 @@ public class ControllerFoodTruck {
 		tRepo.save(D);
 		tRepo.save(G);
 		tRepo.save(Din);
-
 		return modelAndView;
 	}
 
