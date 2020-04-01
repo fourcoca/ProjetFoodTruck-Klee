@@ -45,7 +45,7 @@
 	<%@ include file="nav.jsp"%>
 
 
-	<h1>ACCUEIL</h1>
+
 
 
 
@@ -60,17 +60,15 @@
 
 			<div class="col-sm-4 sidenav ">
 			<c:forEach items="${top3}" var="produit">
-				<div class="border border-dark">
+				<div style="border:2px solid #cecece; margin-bottom:5px;">
 					
-				<h1>${produit.nom}</h1>
-				<h2>${produit.famille}</h2>
-				<p>${produit.description}</p>
+				<h3>${produit.nom}</h3>
 				<p>
 					<a
-						href="/catalogue-${produit.id}"><img src="${produit.image}" alt="Image"> </a>
+						href="/catalogue-${produit.id}"><img src="${produit.image}" alt="Image" height="50%" width="50%" > </a>
 				</p>
 				<p>${produit.getDisponibiliteString()}</p>
-				<h1 class=bigorange>${produit.prix}</h1>
+				<h4 class=bigorange>${produit.prix}<span class="glyphicon glyphicon-euro" aria-hidden="true"></span></h4>
  				</div> 
 			</c:forEach>
 			</div>

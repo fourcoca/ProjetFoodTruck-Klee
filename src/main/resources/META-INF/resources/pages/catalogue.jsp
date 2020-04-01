@@ -97,6 +97,7 @@
 		<c:if test="${(not empty date)|| empty utilisateur}">
 
 			<div class="">
+			<c:if test="${empty utilisateur}">
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 
@@ -143,12 +144,12 @@
 						</form>
 					</div>
 				</nav>
-
+				</c:if>
 				<c:if test="${not empty detail}">
-					<div class="col-sm-8">
+					<div class="col-sm-7 ">
 				</c:if>
 				<c:if test="${empty detail}">
-					<div class="col-sm-12">
+					<div class="col-sm-12" > 
 				</c:if>
 
 
@@ -158,10 +159,10 @@
 
 
 					<c:if test="${ empty type ||  type.equals('Petit_Dejeuner')}">
-						<a href="#"> <span class="glyphicon glyphicon-record"></span>Petit
+						<h3 href="#"> <span class="glyphicon glyphicon-record"></span>Petit
 							Dejeuner
-						</a>
-						<div class="table-responsive">
+						</h3>
+						<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 							<table>
 								<tr>
 									<c:forEach items="${catalogue.getPetitDejeuner()}"
@@ -215,9 +216,9 @@
 
 
 					<c:if test="${ empty type || type.equals('Dejeuner') }">
-						<a href="#"> <span class="glyphicon glyphicon-record"></span>Dejeuner
-						</a>
-						<div class="table-responsive">
+						<h3 href="#"> <span class="glyphicon glyphicon-record"></span>Dejeuner
+						</h3>
+						<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 							<table>
 								<tr>
 									<c:forEach items="${catalogue.getDejeuner()}" var="produit">
@@ -225,7 +226,7 @@
 											test="${empty motRecherche|| produit.nom.toLowerCase().contains(motRecherche.toLowerCase())}">
 											<c:if
 												test="${empty type || produit.foudType(type) && produit.famille.equals(famille)}">
-												<td><p>
+												<td ><p>
 														<a href="/catalogue-${produit.id}">${produit.nom}</a>
 													</p>
 													<a href="/catalogue-${produit.id}"><img
@@ -255,9 +256,9 @@
 
 
 					<c:if test="${ empty type ||  type.equals('Gouter') }">
-						<a href="#"> <span class="glyphicon glyphicon-record"></span>Gouter
-						</a>
-						<div class="table-responsive">
+						<h3 href="#"> <span class="glyphicon glyphicon-record"></span>Gouter
+						</h3>
+						<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 							<table>
 								<tr>
 									<c:forEach items="${catalogue.getGouter()}" var="produit">
@@ -295,9 +296,9 @@
 
 
 					<c:if test="${ empty type || type.equals('Diner') }">
-						<a href="#"> <span class="glyphicon glyphicon-record"></span>Diner
-						</a>
-						<div class="table-responsive">
+						<h3 href="#"> <span class="glyphicon glyphicon-record"></span>Diner
+						</h3>
+						<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 							<table>
 								<tr>
 									<c:forEach items="${catalogue.getDiner()}" var="produit">
@@ -344,7 +345,7 @@
 
 			<a href="#"> <span class="glyphicon glyphicon-record"></span>Entree
 			</a>
-			<div class="table-responsive">
+			<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 				<table>
 					<tr>
 						<c:forEach items="${catalogue.getEntr()}" var="produit">
@@ -378,7 +379,7 @@
 
 			<a href="#"> <span class="glyphicon glyphicon-record"></span>Plat
 			</a>
-			<div class="table-responsive">
+			<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 				<table>
 					<tr>
 						<c:forEach items="${catalogue.getPlat()}" var="produit">
@@ -411,9 +412,10 @@
 			</div>
 
 
-			<a href="#"> <span class="glyphicon glyphicon-record"></span>Dessert
-			</a>
-			<div class="table-responsive">
+			<h3> <span class="glyphicon glyphicon-record"></span>Dessert
+			</h3>
+			
+			<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 				<table>
 					<tr>
 						<c:forEach items="${catalogue.getDessert()}" var="produit">
@@ -447,10 +449,10 @@
 
 
 
-			<a href="#"> <span class="glyphicon glyphicon-record"></span>Boisson
+			<h3> <span class="glyphicon glyphicon-record"></span>Boisson
 				Froide
-			</a>
-			<div class="table-responsive">
+			</h3>
+			<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 				<table>
 					<tr>
 						<c:forEach items="${catalogue.getBfroide()}" var="produit">
@@ -482,10 +484,10 @@
 				</table>
 			</div>
 
-			<a href="#"> <span class="glyphicon glyphicon-record"></span>Boisson
+			<h3> <span class="glyphicon glyphicon-record"></span>Boisson
 				Chaude
-			</a>
-			<div class="table-responsive">
+			</h3>
+			<div class="table-responsive" style="border:2px solid #cecece; margin-bottom:5px;">
 				<table>
 					<tr>
 						<c:forEach items="${catalogue.getBchaude()}" var="produit">
@@ -538,7 +540,7 @@
 
 
 	<c:if test="${not empty detail}">
-		<div class="table-responsive col-sm-4">
+		<div class="table-responsive col-sm-4"  style="border:2px solid #cecece; margin-left:5px;">
 			${detail.nom } <a href="/catalogue"><span
 				class="glyphicon glyphicon-remove"></span></a>
 			<c:if test="${empty date}">
@@ -618,11 +620,7 @@
 	</div>
 	</div>
 
-	<footer class="container-fluid text-center">
-		<p>
-			<a href="/contacts">nous contacter</a>
-		</p>
-	</footer>
+		<%@ include file="footer.jsp"%>	
 
 </body>
 </html>

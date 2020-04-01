@@ -147,7 +147,12 @@ public class ControllerFoodTruck {
 		ht.getSession().setAttribute("heure", heure);
 		ht.getSession().setAttribute("famille", famille);
 		ht.getSession().setAttribute("type", type);
+		ht.getSession().setAttribute("mode", null);
+		System.out.println(date);
+		System.out.println(livraison);
 		System.out.println(heure);
+		System.out.println(famille);
+		System.out.println(type);
 		return modelAndView;
 	}
 
@@ -193,7 +198,6 @@ public class ControllerFoodTruck {
 	public ModelAndView connectionGet(Model model, HttpServletRequest ht) {
 		ModelAndView modelAndView = new ModelAndView("connexion", "email", "");
 		modelAndView.addObject("pwd", "");
-		System.out.println("je suis connexion");
 		return modelAndView;
 	}
 
@@ -278,14 +282,20 @@ public class ControllerFoodTruck {
 		
 		userRepo.save(user);
 
-		return modelAndView;
+		Utilisateur a = userRepo.findByEmailAndMotDePasse(email, motDePasse);
+		if (a!=null && a.getEmail().equals(email)&&a.getMotDePasse().equals(motDePasse)) {
+			modelAndView.addObject("Err", "Incription bien prise en compte");
+			return modelAndView;
+		} else {
+			modelAndView.addObject("Err", "Incription échoué veuillez reassayer ou contact l'administrateur");
+			return modelAndView;
+		}
+
 	}
 
 	@GetMapping("/inscription")
 	public ModelAndView inscrire(Model model) {
 		ModelAndView modelAndView = new ModelAndView("inscription");
-		Utilisateur user = new Utilisateur();
-		model.addAttribute("user", user);
 		return modelAndView;
 	}
 
@@ -758,7 +768,7 @@ public class ControllerFoodTruck {
 	public ModelAndView adminModifierHorairePost(Model model, @RequestParam("heurePD") String heurePD,
 			@RequestParam("heureD") String heureD, @RequestParam("heureG") String heureG,
 			@RequestParam("heureDiner") String heureDiner) {
-		ModelAndView modelAndView = new ModelAndView("admin");
+		ModelAndView modelAndView = new ModelAndView("admin/modifierHoraire");
 		Type PD = tRepo.findByNom("Petit_Dejeuner");
 		Type D = tRepo.findByNom("Dejeuner");
 		Type G = tRepo.findByNom("Gouter");
@@ -773,6 +783,11 @@ public class ControllerFoodTruck {
 		tRepo.save(D);
 		tRepo.save(G);
 		tRepo.save(Din);
+		
+		modelAndView.addObject("heurePD", PD.getHeure());
+		modelAndView.addObject("heureD", D.getHeure());
+		modelAndView.addObject("heureG", G.getHeure());
+		modelAndView.addObject("heureDiner", Din.getHeure());
 		return modelAndView;
 	}
 
@@ -796,11 +811,10 @@ public class ControllerFoodTruck {
 		ht.getSession().setAttribute("produitAmodifier", produitAmodifier);
 		return modelAndView;
 	}
+	
 	@PostMapping("/modife")
 	public ModelAndView adminModifierCatalogue(Model model,@ModelAttribute(name="catalogues") Produit pe,
 			@ModelAttribute(name="famille")String famille,
-			//@RequestParam("quantite") int quantite
-			//@ModelAttribute(name="prix")double prix
 			@RequestParam(name="prix")double prix,
 			@RequestParam(name="stock")int stock,
 			@ModelAttribute(name="ptdej")String ptdej,@ModelAttribute(name="dej")String dej,
@@ -811,12 +825,16 @@ public class ControllerFoodTruck {
 			@ModelAttribute(name="dimanche")String dimanche,
 			HttpServletRequest ht)
 	{
-		ModelAndView modelAndView = new ModelAndView("admin/modifierCatalogue");
+		
 		ModelAndView modelAndView2 = new ModelAndView("admin/listCatalogue");
 		Produit produitAmodifier;
 		produitAmodifier=(Produit) ht.getSession().getAttribute("produitAmodifier");
 		ht.getSession().setAttribute("produitAmodifier", produitAmodifier);
+		
+		
 		List<Type> types = new ArrayList<Type>();
+		
+		
 		String res = "";
 		
 		
@@ -848,6 +866,8 @@ public class ControllerFoodTruck {
 		{
 			res+=dimanche;
 		}
+		
+		
 		if(pe.getImage()!=null)
 		{
 			produitAmodifier.setImage(pe.getImage());
@@ -856,6 +876,9 @@ public class ControllerFoodTruck {
 		{
 				produitAmodifier.setImage(produitAmodifier.getImage());
 		}
+		
+		
+		
 		if(pe.getNom()!=null)
 		{
 			produitAmodifier.setNom(pe.getNom());
@@ -864,6 +887,7 @@ public class ControllerFoodTruck {
 		{
 				produitAmodifier.setNom(produitAmodifier.getNom());
 		}
+		
 		double t=produitAmodifier.getPrix();
 		if(pe.getPrix()>0)
 		{
@@ -897,24 +921,13 @@ public class ControllerFoodTruck {
 		{
 				produitAmodifier.setFamille(produitAmodifier.getFamille());
 		}
+		
 		if(!ptdej.equals(""))
 		{
-			ptdej.toString();
-			//Type tppe =new Type(ptdej.toString(),8);
-			//String teste=(String) ht.getSession().getAttribute("famille");
 			
-			//tRepo.save(tppe);
 			Type tppe=(Type) tRepo.findByNom(ptdej);
 			types.add(tppe);
-//			
-//			prepo.save(pe);
-//			System.out.println(ptdej);
-//			System.out.println(ptdej.toString());
-//			System.out.println(res);
-//		System.out.println(test);
-//			System.out.println( tppe);
-//			System.out.println( pe);
-		//user.add(new Type(ptdej,8));
+
 		}
 		if(!dej.equals(""))
 		{
@@ -950,24 +963,18 @@ public class ControllerFoodTruck {
 		}
 		if(!g.equals(""))
 		{
-			//Type tppe =new Type(g.toString(),10);
-		//	String teste=(String) ht.getSession().getAttribute("famille");
-			//tRepo.save(tppe);
 			Type tppe=(Type) tRepo.findByNom(g);
 			types.add(tppe);
-//			prepo.save(pe);
-//			System.out.println(g);
-//			System.out.println(g.toString());
-//			System.out.println(res);
-//			System.out.println(test);
-//			System.out.println( tppe);
-//			System.out.println( pe);
-		//user.add(new Type(ptdej,8));
 		}
 		System.out.println(produitAmodifier);
 		produitAmodifier.setDisponibilite(res);
 		produitAmodifier.setType(types);
 			prepo.saveAndFlush(produitAmodifier);
+			
+			
+			
+			
+			
 			model.addAttribute("prodList", prepo.findAll());
 			return modelAndView2;
 	}

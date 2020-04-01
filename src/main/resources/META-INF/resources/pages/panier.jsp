@@ -67,5 +67,5 @@
 
 
 	<a href="valider"><button class="btn btn-success">Valider</button></a>
-</body>
+	<%@ include file="footer.jsp"%></body>
 </html>

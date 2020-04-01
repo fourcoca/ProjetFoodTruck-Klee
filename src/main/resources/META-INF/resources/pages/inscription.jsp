@@ -18,11 +18,13 @@
 <%@ include file="nav.jsp" %>
 
 <h1>INSCRIPTION UTILISATEUR </h1>
-
+<c:if test="${not empty Err }">
+<p>${Err}</p>
+</c:if>
 
 
 	
-	<div class="container">
+	<div class="container" style="background-color: Beige;">
   <h2>FoodTruck</h2>
   <form  action="" method="post" modelAttribute="personneModel">
     <div class="form-group">
@@ -82,6 +84,6 @@
   </form>
 </div>
 						
-			
+		<%@ include file="footer.jsp"%>		
 </body>
 </html>

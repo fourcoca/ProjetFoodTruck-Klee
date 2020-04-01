@@ -57,6 +57,7 @@
 			</tr>
 		</tfoot>
 	</table>
-<h1>VALIDER</h1>
+<h1>VALIDER</h1>	
+<%@ include file="footer.jsp"%>
 </body>
 </html>

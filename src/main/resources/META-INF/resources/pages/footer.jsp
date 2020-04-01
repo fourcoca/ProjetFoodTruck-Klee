@@ -1,4 +1,4 @@
-<footer class="container-fluid text-center" style="background-color: gray;">
+<footer class="container-fluid text-center"">
 
 
 <div  class="col-sm-4" style="background-color: black;" >
@@ -10,11 +10,11 @@
 	<li><a href="#">Politique remboursement</a></li>
 	<li><a href="#">Condition de Vente</a></li>
 	</div>
-	
-	<div  class="col-sm-4" style="background-color: black;">
-	<li><a href="#">+021-95-51-84</a></li>
-	<li><a href="#">email@email.com</a></li>
+
+	<div class="col-sm-4" style="background-color: black;">
+		<li><a href="#">+021-95-51-84</a></li>
+		<li><a href="#">email@email.com</a></li>
 	</div>
-	
+
 
 </footer>

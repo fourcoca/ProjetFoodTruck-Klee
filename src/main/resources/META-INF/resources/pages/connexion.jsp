@@ -45,9 +45,7 @@
 
   
 
-  <footer class="container-fluid text-center">
-  <p><a href="/contacts">nous contacter</a></p>
-</footer>
+	<%@ include file="footer.jsp"%>
 
 </body>
 </html>

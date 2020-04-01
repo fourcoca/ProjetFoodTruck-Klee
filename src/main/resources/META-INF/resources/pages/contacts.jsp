@@ -44,6 +44,6 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
       </div>
     </div>
   </form>
-</div>
+</div>	<%@ include file="footer.jsp"%>
 </body>
 </html>

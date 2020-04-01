@@ -21,9 +21,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 <%@ include file="nav.jsp" %>
 
 	<p>Au revoir </p>
-<footer class="container-fluid text-center">
-  <p><a href="/contacts">nous contacter</a></p>
-</footer>
+	<%@ include file="footer.jsp"%>
 
 </body>
 </html>
