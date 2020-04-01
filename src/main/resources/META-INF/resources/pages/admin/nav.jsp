@@ -17,7 +17,6 @@
         </c:if>
         <c:if test="${not empty sessionScope.user}">
         <li style="background-color: gray;">Bonjour ${user.nom}</li>
-        <li><a href="/admin/listCatalogue"><span class="glyphicon glyphicon-cutlery"></span> Gestion Produits</a></li>
 		
 		
 		

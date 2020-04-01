@@ -206,8 +206,41 @@ public class Produit {
 		return "Ce produit est dispo les jours suivants :"+dispo;
 	}
 	
-	
-	
+	public boolean estPD()
+	{
+		for (Type type2 : type) {
+			if(type2.getNom().equals("Petit_Dejeuner"))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean estD()
+	{
+		for (Type type2 : type) {
+			if(type2.getNom().equals("Dejeuner"))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean estDiner()
+	{
+		for (Type type2 : type) {
+			if(type2.getNom().equals("Diner"))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean estG()
+	{
+		for (Type type2 : type) {
+			if(type2.getNom().equals("Gouter"))
+				return true;
+		}
+		return false;
+	}
 	public String getImageIn()
 	{
 		return this.getImage().substring(0, this.getImage().length()-4)+"R"+this.getImage().substring(this.getImage().length()-4);

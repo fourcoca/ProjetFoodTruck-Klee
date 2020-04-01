@@ -489,7 +489,7 @@ public class ControllerFoodTruck {
 		// model.addAttribute("user",user);
 		Utilisateur oneUser = userRepo.findById(id);
 
-		ht.getSession().setAttribute("userId", oneUser);
+		ht.getSession().setAttribute("user", oneUser);
 		return modelAndView;
 	}
 

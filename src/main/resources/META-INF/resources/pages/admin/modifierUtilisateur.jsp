@@ -39,54 +39,54 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
 
 <div class="container" style="background-color: green;">
   <h2>FoodTruck</h2>
-  <h3>MODIFIER PROFIL</h3>
+  <h3>MODIFIER UTILISATEUR</h3>
   <form  action="" method="post" modelAttribute="usersModel" style="background-color: green;">
     <div class="form-group">
       <label class="control-label col-sm-2" >Nom:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="e" placeholder="Entrer votre Nom" name="nom">
+        <input type="text" class="form-control" id="e" placeholder="Entrer votre Nom" name="nom" value="${user.nom}">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Prenom:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="em" placeholder="Entrer votre prénom" name="prenom">
+        <input type="text" class="form-control" id="em" placeholder="Entrer votre prénom" name="prenom" value="${user.prenom}">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Date de naissance:</label>
       <div class="col-sm-10">
-        <input type="datetime" class="form-control" id="ema" placeholder="Entrer votre Date de naissance" name="dateDeNaissance">
+        <input type="date" class="form-control" id="ema" placeholder="Entrer votre Date de naissance" name="dateDeNaissance" value="${user.getDateS()}">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Adresse:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="l" placeholder="Entrer votre adresse" name="adresse">
+        <input type="text" class="form-control" id="l" placeholder="Entrer votre adresse" name="adresse" value="${user.adresse}">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Societé:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="il" placeholder="Entrer l'adresse de votre societe " name="societe">
+        <input type="text" class="form-control" id="il" placeholder="Entrer l'adresse de votre societe " name="societe" value="${user.societe}">
       </div>
     </div>
 	<div class="form-group">
       <label class="control-label col-sm-2" >Genre:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="ail" placeholder="Enter le genre " name="genre">
+        <input type="text" class="form-control" id="ail" placeholder="Enter le genre " name="genre" value="${user.genre}">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" >Email:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="aill" placeholder="Enter le mail " name="email">
+        <input type="text" class="form-control" id="aill" placeholder="Enter le mail " name="email" value="${user.email}">
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-2" >Password:</label>
       <div class="col-sm-10">          
-        <input type="password" class="form-control" id="pwd" placeholder="Entrer le mot de passe " name="motDePasse">
+        <input type="password" class="form-control" id="pwd" placeholder="Entrer le mot de passe " name="motDePasse" value="${user.motDePasse}">
       </div>
     </div>
    
@@ -98,6 +98,5 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
   </form>
 </div>
 
-<%@ include file="../footer.jsp" %>
 </body>
 </html>

@@ -46,7 +46,7 @@
 	<div class="form-group">
       <label class="control-label col-sm-2" >Date de naissance:</label>
       <div class="col-sm-10">
-        <input type="date" class="form-control" id="ema" value="${utilisateur.dateDeNaissance}" placeholder="Entrer votre Date de naissance" name="dateDeNaissance">
+        <input type="date" class="form-control" id="ema"  placeholder="Entrer votre Date de naissance" name="dateDeNaissance" value="${utilisateur.getDateS()}">
       </div>
     </div>
 	<div class="form-group">

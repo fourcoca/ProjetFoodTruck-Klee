@@ -1,6 +1,7 @@
 package com.foodTruckProjet.foodTruck.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +32,14 @@ public class Utilisateur  {
 		return commandes;
 	}
 
+	public String getDateS()
+	{
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime dateTime = this.dateDeNaissance;
+		String formattedDateTime = dateTime.format(formatter);
+		return formattedDateTime;
+	}
+	
 	public void setCommandes(List<Commande> commandes) {
 		this.commandes = commandes;
 	}
