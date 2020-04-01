@@ -377,8 +377,7 @@ public class ControllerFoodTruck {
 		Utilisateur user;
 		ModelAndView modelAndView = new ModelAndView("profil/modifier");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		dateDeNaissanceS = dateDeNaissanceS.replace('T', ' ');
-		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS.substring(0, 16), formatter);
+		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS+" 00:00", formatter);
 		user = (Utilisateur) ht.getSession().getAttribute("utilisateur");
 		user.setAdresse(adresse);
 		user.setNom(nom);
@@ -492,63 +491,42 @@ public class ControllerFoodTruck {
 		ht.getSession().setAttribute("user", oneUser);
 		return modelAndView;
 	}
+	
+	
+	
+
+
+
+
+
+
+
 
 	@PostMapping("/modif")
-	public ModelAndView adminModifierUtilisateur(Model model, @ModelAttribute(name = "usersModel") Utilisateur pe,
-			HttpServletRequest ht) {
-		ModelAndView modelAndView = new ModelAndView("admin/modifierUtilisateur");
+	public ModelAndView adminModifierUtilisateur(Model model, @RequestParam(name = "nom") String nom,
+			@RequestParam(name = "prenom") String prenom, @RequestParam(name = "email") String email,
+			@RequestParam(name = "adresse") String adresse, @RequestParam(name = "societe") String societe,
+			@RequestParam(name = "motDePasse") String motDePasse, @RequestParam(name = "genre") String genre,
+			@RequestParam(name = "dateDeNaissance") String dateDeNaissanceS, HttpServletRequest ht) {
+		
 		ModelAndView modelAndView2 = new ModelAndView("admin/listUtilisateur");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		LocalDateTime dateDeNaissance = LocalDateTime.parse(dateDeNaissanceS+" 00:00", formatter);
 		Utilisateur user;
 
-		user = (Utilisateur) ht.getSession().getAttribute("userId");
-
-		// user.setAdresse(pe.getAdresse());
-		System.out.println("seul" + pe);
-		System.out.println("avant" + user);
-		if (pe.getDateDeNaissance() != null) {
-			user.setDateDeNaissance(pe.getDateDeNaissance());
-		} else {
-			user.setDateDeNaissance(user.getDateDeNaissance());
-		}
-
-		if (pe.getEmail() != "") {
-			user.setEmail(pe.getEmail());
-		} else {
-			user.setEmail(user.getEmail());
-		}
-
-		if (pe.getGenre() != "") {
-			user.setGenre(pe.getGenre());
-		} else {
-			user.setGenre(user.getGenre());
-		}
-
-		if (pe.getMotDePasse() != "") {
-			user.setMotDePasse(pe.getMotDePasse());
-		} else {
-			user.setMotDePasse(user.getMotDePasse());
-		}
-
-		if (pe.getNom() != "") {
-			user.setNom(pe.getNom());
-		} else {
-			user.setNom(user.getNom());
-		}
-
-		if (pe.getPrenom() != "") {
-			user.setPrenom(pe.getPrenom());
-		} else {
-			user.setPrenom(user.getPrenom());
-		}
-
-		if (pe.getSociete() != "") {
-			user.setSociete(pe.getSociete());
-		} else {
-			user.setSociete(user.getSociete());
-		}
+		user = (Utilisateur) ht.getSession().getAttribute("user");
+		user.setAdresse(adresse);
+		user.setNom(nom);
+		user.setEmail(email);
+		user.setPrenom(prenom);
+		user.setGenre(genre);
+		user.setDateDeNaissance(dateDeNaissance);
+		user.setMotDePasse(motDePasse);
+		user.setEmail(email);
+		user.setSociete(societe);
+		
 
 		userRepo.saveAndFlush(user);
-		System.out.println("apres" + user);
 
 		model.addAttribute("artList", userRepo.findAll());
 		return modelAndView2;
