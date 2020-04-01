@@ -57,7 +57,6 @@ public class ControllerFoodTruck {
 	@GetMapping("/accueil")
 	public ModelAndView accueil(Model model) {
 		ModelAndView modelAndView = new ModelAndView("accueil", "top3", prepo.findtop3());
-		System.out.println("Je suis accueil");
 		return modelAndView;
 	}
 

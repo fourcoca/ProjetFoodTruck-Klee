@@ -25,7 +25,7 @@ public class Panier {
 	{
 		boolean trouv = false;
 		for (Ligne ligne : lignes) {
-			if(ligne.getProduit().getNom().equals(l.getProduit().getNom()))
+			if(ligne.getProduit().getNom().equals(l.getProduit().getNom())&&ligne.getAdresse().equals(l.getAdresse())&&ligne.getDate().equals(l.getDate()))
 			{
 				ligne.setQuantite(ligne.getQuantite()+l.getQuantite());
 				trouv = true;

@@ -85,15 +85,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
       </div>
     </div>
 	
-    
-    <div class="form-group">
-      <label class="control-label col-sm-2" >Famille:</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="aill" placeholder="Enter la famille du produit  " name="famille">
-      </div>
-    </div>
-   	
-   	 
+
   
    
    <h1> Jours de Disponibilité:</h1>
@@ -154,7 +146,7 @@ style="background-image: url(https://upload.wikimedia.org/wikipedia/commons/thum
         
         
         <h1>Famille de repas </h1>
-          <select class="custom-select" id="inputGroupSelect01" value="famille">
+          <select class="custom-select" id="inputGroupSelect01" name="famille">
     <option selected value="plat">plat</option>
     <option value="Boissoin froide">"Boissoin froide"</option>
     <option value="boisson chaude">boisson chaude</option>

@@ -205,4 +205,12 @@ public class Produit {
 		
 		return "Ce produit est dispo les jours suivants :"+dispo;
 	}
+	
+	
+	
+	public String getImageIn()
+	{
+		return this.getImage().substring(0, this.getImage().length()-4)+"R"+this.getImage().substring(this.getImage().length()-4);
+		
+	}
 }

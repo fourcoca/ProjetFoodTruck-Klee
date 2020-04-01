@@ -49,6 +49,7 @@ public class ConsoleService implements CommandLineRunner {
 
 		// initi();
 		//baseDeDonneeR();
+		//prep.delete(prep.findById(29).get());
 	}
 
 	private void baseDeDonneeR() {
